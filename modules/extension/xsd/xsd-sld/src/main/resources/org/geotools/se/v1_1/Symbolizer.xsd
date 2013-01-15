@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.opengis.net/se" xmlns:se="http://www.opengis.net/se" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.1.1">
+<xsd:schema targetNamespace="http://www.opengis.net/se" xmlns:se="http://www.opengis.net/se" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.1.0.2">
+  <!-- This version of se/1.1.0 was previously versioned as '1.1.1' . -->
 	<xsd:include schemaLocation="common.xsd"/>
 	<xsd:import namespace="http://www.opengis.net/ogc" schemaLocation="http://schemas.opengis.net/filter/1.1.0/filter.xsd"/>
 	<xsd:import namespace="http://www.opengis.net/gml" schemaLocation="http://schemas.opengis.net/gml/3.1.1/base/units.xsd"/>
@@ -9,7 +10,7 @@
       SE Symbolizer version 1.1.0 (2010-02-01)
       
       Symbology Encoding is an OGC Standard.
-      Copyright (c) 2005,2010 Open Geospatial Consortium, Inc. All Rights Reserved.
+      Copyright (c) 2005,2010 Open Geospatial Consortium.
       To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
 		</xsd:documentation>
 	</xsd:annotation>
@@ -338,10 +339,6 @@
 					<xsd:element ref="se:LabelPlacement" minOccurs="0"/>
 					<xsd:element ref="se:Halo" minOccurs="0"/>
 					<xsd:element ref="se:Fill" minOccurs="0"/>
- 
-					<!-- geotools specific extension -->
-					<xsd:element ref="se:VendorOption" minOccurs="0" maxOccurs="unbounded"/>
-
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -933,21 +930,4 @@ Interpolate function
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-
-  <xsd:element name="VendorOption">
-    <xsd:annotation>
-      <xsd:documentation>
-      GeoTools specific vendor extensions that allow for implementation 
-      specific features not nessarily supported by the core SE spec.
-      </xsd:documentation>
-    </xsd:annotation>
-    <xsd:complexType mixed="true">
-      <xsd:simpleContent>
-          <xsd:extension base="xsd:string">
-             <xsd:attribute name="name" type="xsd:string" />
-          </xsd:extension>
-      </xsd:simpleContent>
-    </xsd:complexType>
-  </xsd:element>
-
 </xsd:schema>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="http://www.opengis.net/se" xmlns:se="http://www.opengis.net/se" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" elementFormDefault="qualified" version="1.1.1">
-	<xsd:import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://schemas.opengis.net/xlink/1.0.0/xlinks.xsd"/>
+<xsd:schema targetNamespace="http://www.opengis.net/se" xmlns:se="http://www.opengis.net/se" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" elementFormDefault="qualified" version="1.1.0.2">
+  <!-- This version of se/1.1.0 was previously versioned as '1.1.1' . -->
+	<xsd:import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://www.w3.org/1999/xlink.xsd"/>
 	<!-- *********************************************************************** -->
 	<xsd:annotation>
 		<xsd:documentation>
       SE COMMON ELEMENTS version 1.1.0 (2010-02-01)
       
       Symbology Encoding is an OGC Standard.
-      Copyright (c) 2005,2010 Open Geospatial Consortium, Inc. All Rights Reserved.
+      Copyright (c) 2005,2010 Open Geospatial Consortium.
       To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
 		</xsd:documentation>
 	</xsd:annotation>
@@ -52,7 +53,7 @@
 		</xsd:annotation>
 	</xsd:element>
 	<xsd:complexType name="OnlineResourceType">
-		<xsd:attributeGroup ref="xlink:simpleLink"/>
+		<xsd:attributeGroup ref="xlink:simpleAttrs"/>
 	</xsd:complexType>
 	<!-- *********************************************************************** -->
 	<xsd:element name="InlineContent" type="se:InlineContentType">
