@@ -28,6 +28,7 @@ import org.geotools.gml2.SubstitutionGroupLeakPreventer;
 import org.geotools.gml3.smil.SMIL20;
 import org.geotools.gml3.smil.SMIL20LANG;
 import org.geotools.xlink.XLINK;
+import org.geotools.xml.XML;
 import org.geotools.xml.XSD;
 import org.opengis.feature.type.Schema;
 
@@ -3427,6 +3428,8 @@ public final class GML extends XSD {
     }
     
     protected void addDependencies(Set dependencies) {
+        dependencies.add(XML.getInstance());
+        
         //add xlink dependency
         dependencies.add(XLINK.getInstance());
 

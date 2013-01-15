@@ -216,7 +216,7 @@ public final class OGC extends XSD {
      * Returns the location of 'filterCapabilities.xsd.'.
      */
     public String getSchemaLocation() {
-        return getClass().getResource("filterCapabilities.xsd").toString();
+        return getClass().getResource("../filterCapabilities.xsd").toString();
     }
 
     /* Attributes */

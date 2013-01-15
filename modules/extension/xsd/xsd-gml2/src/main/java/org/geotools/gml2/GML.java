@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 
 import org.eclipse.xsd.XSDSchema;
 import org.geotools.xlink.XLINK;
+import org.geotools.xml.XML;
 import org.geotools.xml.XSD;
 import org.opengis.feature.type.Schema;
 
@@ -598,7 +599,7 @@ public final class GML extends XSD {
     }
     
     protected void addDependencies(Set dependencies) {
-        //add xlink dependency
+        dependencies.add(XML.getInstance());
         dependencies.add(XLINK.getInstance());
     }
 

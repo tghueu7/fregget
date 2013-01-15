@@ -35,6 +35,7 @@ import org.geotools.gml2.SubstitutionGroupLeakPreventer;
 import org.geotools.gml3.v3_2.gmd.GMD;
 import org.geotools.xlink.XLINK;
 import org.geotools.xml.Schemas;
+import org.geotools.xml.XML;
 import org.geotools.xml.XSD;
 import org.opengis.feature.type.Name;
 import org.opengis.feature.type.Schema;
@@ -75,6 +76,7 @@ public final class GML extends XSD {
     }
     
     protected void addDependencies(Set dependencies) {
+       dependencies.add(XML.getInstance());
        dependencies.add( XLINK.getInstance() );
        dependencies.add( GMD.getInstance() );
     }
