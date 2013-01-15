@@ -85,7 +85,11 @@ public class OGCBeyondBinding extends AbstractComplexBinding {
 
         Expression[] operands = OGCUtils.spatial(node, filterFactory, geometryFactory);
         double distance = ((Double) node.getChildValue(Double.class)).doubleValue();
-        String units = (String) node.getChild("Distance").getAttributeValue("units");
+        Object rawUnits = node.getChild("Distance").getAttributeValue("units");
+        String units = null;
+        if(rawUnits != null) {
+            units = rawUnits.toString();
+        }
         return filterFactory.beyond(operands[0], operands[1], distance, units);
     }
 }
