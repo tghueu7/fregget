@@ -3,17 +3,21 @@
 xmlns:gml="http://www.opengis.net/gml" 
 xmlns:xlink="http://www.w3.org/1999/xlink" 
 xmlns="http://www.w3.org/2001/XMLSchema" 
-elementFormDefault="qualified" version="3.1.1">
+elementFormDefault="qualified"
+version="3.1.1.2">
 	<annotation>
 		<appinfo source="urn:opengis:specification:gml:schema-xsd:gmlBase:3.1.1"/>
-		<documentation>Subset of gmlBase.xsd for WCS 1.2 profile. Primary editor: Primary editor: Arliss Whiteside. Last updated 2007-04-23 
-		Copyright © 2007 Open Geospatial Consortium, Inc. All Rights Reserved.</documentation>
+		<documentation>Subset of gmlBase.xsd for WCS 1.2 profile. Primary editor: Primary editor: Arliss Whiteside.
+			
+			Copyright (c) 2007,2010 Open Geospatial Consortium.
+			To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
 	<!-- ==============================================================
        includes and imports
 	============================================================== -->
 	<include schemaLocation="basicTypes.xsd"/>
-	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="../../../xlink/1.0.0/xlinks.xsd"/>
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://www.w3.org/1999/xlink.xsd"/>
 	<!-- =========================================================== -->
 	<!-- ==================== Objects ================================ -->
 	<!-- =========================================================== -->
@@ -78,7 +82,7 @@ elementFormDefault="qualified" version="3.1.1">
 		<annotation>
 			<documentation>Attribute group used to enable property elements to refer to their value remotely. It contains the simple link components from xlinks.xsd, with all members optional, and the remoteSchema attribute, which is also optional.  These attributes can be attached to any element, thus allowing it to act as a pointer. The 'remoteSchema' attribute allows an element  that carries link attributes to indicate that the element is declared  in a remote schema rather than by the schema that constrains the current document instance.</documentation>
 		</annotation>
-		<attributeGroup ref="xlink:simpleLink"/>
+		<attributeGroup ref="xlink:simpleAttrs"/>
 	</attributeGroup>
 	<!-- =========================================================== -->
 	<element name="name" type="gml:CodeType">

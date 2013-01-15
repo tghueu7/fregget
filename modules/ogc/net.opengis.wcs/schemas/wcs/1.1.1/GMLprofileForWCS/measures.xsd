@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema targetNamespace="http://www.opengis.net/gml" elementFormDefault="qualified" attributeFormDefault="unqualified" version="3.1.1" xml:lang="en" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml">
+<schema targetNamespace="http://www.opengis.net/gml" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="en" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:gml="http://www.opengis.net/gml"  version="3.1.1.2">
 	<annotation>
 		<appinfo source="urn:opengis:specification:gml:schema-measures:3.1.1"/>
-		<documentation>Subset of measures.xsd for WCS 1.2 profile. Primary editor: Primary editor: Arliss Whiteside. Last updated 2007-05-15 
-		Copyright © 2007 Open Geospatial Consortium, Inc. All Rights Reserved. </documentation>
+		<documentation>Subset of measures.xsd for WCS 1.2 profile. Primary editor: Primary editor: Arliss Whiteside.
+			
+			Copyright (c) 2007,2010 Open Geospatial Consortium.
+			To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
 	<!-- ==============================================================
        includes and imports

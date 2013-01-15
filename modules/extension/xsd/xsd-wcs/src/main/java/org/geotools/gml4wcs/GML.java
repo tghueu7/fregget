@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.geotools.wcs.WCS;
 import org.geotools.xlink.XLINK;
 import org.geotools.xml.XSD;
 
@@ -51,7 +52,7 @@ public final class GML extends XSD {
      * Returns the location of 'gml4wcs.xsd.'.
      */
     public String getSchemaLocation() {
-        return getClass().getResource("gml4wcs.xsd").toString();
+        return  WCS.class.getResource("gml4wcs.xsd").toString();
     }
 
     /** @generated */

@@ -4,13 +4,14 @@ xmlns:gml="http://www.opengis.net/gml"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://www.opengis.net/gml ../../gml/3.1.1/profiles/SimpleDictionary/1.0.0/gmlSimpleDictionaryProfile.xsd" 
 gml:id="InterpolationMethods">
-	<!-- Primary editor: Arliss Whiteside. Last updated 2007-06-06 -->
-	<description>This dictionary specifies the standard values of interpolation types specified in the WCS 1.1 specification, based on ISO 19123. In addition, this dictionary specifies definition URNs in the "ogc URN namespace for these interpolation types. </description>
+	<!-- Primary editor: Arliss Whiteside. Last updated 2008-01-02 -->
+	<description>This dictionary specifies the standard values of interpolation types specified in the WCS 1.1 specification, based on ISO 19123 Geographic information - Schema for coverage geometry and functions. This dictionary also lists the standard values of null resistance specified in the WCS 1.1 specification. In addition, this dictionary specifies definition URNs in the "ogc" URN namespace for these interpolation types and null resistance values. 
+	ISO 19123 specifies two-dimensional versions of the interpolation types, namely, bilinear, biquadratic, and bicubic. This dictionary has removed the two dimension restriction by deleting the prefix "bi" from the interpolation types. For example, when also interpolating in the elevation dimension of a 3D CRS, the 3D extensions of these interpolation types shall be used. Similarly, when interpolating in only one spatial dimension, the 1D simplifications of these interpolation types shall be used. </description>
 	<name>Interpolation methods standard values</name>
 	<!-- ===================================================== -->
 	<dictionaryEntry>
 		<Definition gml:id="nearest">
-			<description>Identifier of nearest neighbour interpolation defined in Annex C of ISO 19123: Geographic information - Schema for coverage geometry and functions. </description>
+			<description>Identifier of nearest neighbour interpolation defined in Annex C of ISO 19123. </description>
 			<name>nearest</name>
 			<name>urn:ogc:def:interpolation:OGC:1.0:nearest</name>
 		</Definition>
@@ -18,7 +19,7 @@ gml:id="InterpolationMethods">
 	<!-- ===================================================== -->
 	<dictionaryEntry>
 		<Definition gml:id="linear">
-			<description>Identifier of bilinear interpolation defined in Annex C of ISO 19123: Geographic information - Schema for coverage geometry and functions. ISO 19123 specifies two-dimensional bilinear, biquadratic, and bicubic interpolation types. When also interpolating in the elevation dimension of a 3D CRS, the 3D extensions of these interpolation types shall be used. </description>
+			<description>Identifier of linear interpolation defined in Annex C of ISO 19123. </description>
 			<name>linear</name>
 			<name>urn:ogc:def:interpolation:OGC:1.0:linear</name>
 		</Definition>
@@ -26,7 +27,7 @@ gml:id="InterpolationMethods">
 	<!-- ===================================================== -->
 	<dictionaryEntry>
 		<Definition gml:id="quadratic">
-			<description>Identifier of biquadratic interpolation defined in Annex C of ISO 19123: Geographic information - Schema for coverage geometry and functions. ISO 19123 specifies two-dimensional bilinear, biquadratic, and bicubic interpolation types. When also interpolating in the elevation dimension of a 3D CRS, the 3D extensions of these interpolation types shall be used. </description>
+			<description>Identifier of quadratic interpolation defined in Annex C of ISO 19123. </description>
 			<name>quadratic</name>
 			<name>urn:ogc:def:interpolation:OGC:1.0:quadratic</name>
 		</Definition>
@@ -34,7 +35,7 @@ gml:id="InterpolationMethods">
 	<!-- ===================================================== -->
 	<dictionaryEntry>
 		<Definition gml:id="cubic">
-			<description>Identifier of bicubic interpolation defined in Annex C of ISO 19123: Geographic information - Schema for coverage geometry and functions. ISO 19123 specifies two-dimensional bilinear, biquadratic, and bicubic interpolation types. When also interpolating in the elevation dimension of a 3D CRS, the 3D extensions of these interpolation types shall be used. </description>
+			<description>Identifier of cubic interpolation defined in Annex C of ISO 19123. </description>
 			<name>cubic</name>
 			<name>urn:ogc:def:interpolation:OGC:1.0:cubic</name>
 		</Definition>
