@@ -93,9 +93,9 @@ public final class XLINK extends XSD {
     }
 
     /**
-     * Returns location of 'xlinks.xsd'.
+     * Returns location of 'xlink.xsd'.
      */
     public String getSchemaLocation() {
-        return getClass().getResource("xlinks.xsd").toString();
+        return getClass().getResource("xlink.xsd").toString();
     }
 }
