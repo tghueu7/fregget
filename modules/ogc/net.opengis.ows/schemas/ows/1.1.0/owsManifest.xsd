@@ -3,17 +3,21 @@
 xmlns:ows="http://www.opengis.net/ows/1.1" 
 xmlns:xlink="http://www.w3.org/1999/xlink" 
 xmlns="http://www.w3.org/2001/XMLSchema" 
-elementFormDefault="qualified" version="1.1.0" xml:lang="en">
+elementFormDefault="qualified" version="1.1.0.3" xml:lang="en">
 	<annotation>
-		<appinfo>owsManifest.xsd 2006-10-04</appinfo>
+		<appinfo>owsManifest.xsd</appinfo>
 		<documentation>This XML Schema Document specifies types and elements for document or resource references and for package manifests that contain multiple references. The contents of each type and element specified here can be restricted and/or extended for each use in a specific OWS specification.
-		Copyright (c) 2006 Open Geospatial Consortium, Inc. All Rights Reserved. </documentation>
+		
+		OWS is an OGC Standard.
+		Copyright (c) 2006,2010 Open Geospatial Consortium.
+		To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
 	<!-- ==============================================================
 		includes and imports
 	============================================================== -->
 	<include schemaLocation="owsDataIdentification.xsd"/>
-	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="../../xlink/1.0.0/xlinks.xsd"/>
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://www.w3.org/1999/xlink.xsd"/>
 	<!-- ==========================================================
 		Types and elements
 	    ========================================================== -->
@@ -22,7 +26,7 @@ elementFormDefault="qualified" version="1.1.0" xml:lang="en">
 	<complexType name="AbstractReferenceBaseType">
 		<annotation>
 			<documentation> Base for a reference to a remote or local resource. </documentation>
-			<documentation>This type contains only a restricted and annotated set of the attributes from the xlink:simpleLink attributeGroup. </documentation>
+			<documentation>This type contains only a restricted and annotated set of the attributes from the xlink:simpleAttrs attributeGroup. </documentation>
 		</annotation>
 		<attribute name="type" type="string" fixed="simple" form="qualified"/>
 		<attribute ref="xlink:href" use="required">
@@ -37,7 +41,7 @@ elementFormDefault="qualified" version="1.1.0" xml:lang="en">
 		</attribute>
 		<attribute ref="xlink:arcrole" use="optional">
 			<annotation>
-				<documentation>Although allowed, this attribute is not expected to be useful in this application of xlink:simpleLink. </documentation>
+				<documentation>Although allowed, this attribute is not expected to be useful in this application of xlink:simpleAttrs. </documentation>
 			</annotation>
 		</attribute>
 		<attribute ref="xlink:title" use="optional">
@@ -47,12 +51,12 @@ elementFormDefault="qualified" version="1.1.0" xml:lang="en">
 		</attribute>
 		<attribute ref="xlink:show" use="optional">
 			<annotation>
-				<documentation>Although allowed, this attribute is not expected to be useful in this application of xlink:simpleLink. </documentation>
+				<documentation>Although allowed, this attribute is not expected to be useful in this application of xlink:simpleAttrs. </documentation>
 			</annotation>
 		</attribute>
 		<attribute ref="xlink:actuate" use="optional">
 			<annotation>
-				<documentation>Although allowed, this attribute is not expected to be useful in this application of xlink:simpleLink. </documentation>
+				<documentation>Although allowed, this attribute is not expected to be useful in this application of xlink:simpleAttrs. </documentation>
 			</annotation>
 		</attribute>
 	</complexType>

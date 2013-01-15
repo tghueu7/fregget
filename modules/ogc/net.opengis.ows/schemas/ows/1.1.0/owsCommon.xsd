@@ -3,16 +3,21 @@
 xmlns:ows="http://www.opengis.net/ows/1.1" 
 xmlns:xlink="http://www.w3.org/1999/xlink" 
 xmlns="http://www.w3.org/2001/XMLSchema" 
-elementFormDefault="qualified" version="1.1.0" xml:lang="en">
+elementFormDefault="qualified" version="1.1.0.3" xml:lang="en">
 	<annotation>
-		<appinfo>owsCommon.xsd 2006-10-04</appinfo>
+		<appinfo>owsCommon.xsd</appinfo>
 		<documentation>This XML Schema Document encodes various parameters and parameter types that can be used in OWS operation requests and responses.
-		Copyright (c) 2006 Open Geospatial Consortium, Inc. All Rights Reserved. </documentation>
+		
+		OWS is an OGC Standard.
+		Copyright (c) 2006,2010 Open Geospatial Consortium.
+		To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+		</documentation>
 	</annotation>
 	<!-- ==============================================================
 		includes and imports
 	============================================================== -->
-	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="../../xlink/1.0.0/xlinks.xsd"/>
+    <include schemaLocation="owsAll.xsd"/>
+	<import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://www.w3.org/1999/xlink.xsd"/>
 	<!-- ==============================================================
 		elements and types
 	============================================================== -->
@@ -38,12 +43,12 @@ elementFormDefault="qualified" version="1.1.0" xml:lang="en">
 	<!-- ========================================================== -->
 	<complexType name="MetadataType">
 		<annotation>
-			<documentation>This element either references or contains more metadata about the element that includes this element. To reference metadata stored remotely, at least the xlinks:href attribute in xlink:simpleLink shall be included. Either at least one of the attributes in xlink:simpleLink or a substitute for the AbstractMetaData element shall be included, but not both. An Implementation Specification can restrict the contents of this element to always be a reference or always contain metadata. (Informative: This element was adapted from the metaDataProperty element in GML 3.0.) </documentation>
+			<documentation>This element either references or contains more metadata about the element that includes this element. To reference metadata stored remotely, at least the xlinks:href attribute in xlink:simpleAttrs shall be included. Either at least one of the attributes in xlink:simpleAttrs or a substitute for the AbstractMetaData element shall be included, but not both. An Implementation Specification can restrict the contents of this element to always be a reference or always contain metadata. (Informative: This element was adapted from the metaDataProperty element in GML 3.0.) </documentation>
 		</annotation>
 		<sequence>
 			<element ref="ows:AbstractMetaData" minOccurs="0"/>
 		</sequence>
-		<attributeGroup ref="xlink:simpleLink">
+		<attributeGroup ref="xlink:simpleAttrs">
 			<annotation>
 				<documentation>Reference to metadata recorded elsewhere, either external to this XML document or within it. Whenever practical, the xlink:href attribute with type anyURI should include a URL from which this metadata can be electronically retrieved. </documentation>
 			</annotation>
