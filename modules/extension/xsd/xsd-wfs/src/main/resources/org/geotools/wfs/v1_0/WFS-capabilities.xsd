@@ -5,8 +5,15 @@
    xmlns:gml="http://www.opengis.net/gml"
    xmlns:ogc="http://www.opengis.net/ogc"
    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-   elementFormDefault="qualified">
-
+   elementFormDefault="qualified"
+   version="1.0.0.3">
+   
+   <!--
+      WFS is an OGC Standard.
+      Copyright (c) 2002,2010 Open Geospatial Consortium.
+      To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+   -->
+   
    <!-- Comments in this document may impose additional constraints
         beyond those codified in the schema syntax.  A conformant
         Web Feature Server must provide Capabilities XML that
@@ -17,8 +24,7 @@
    <!-- ==============================================================
         Imports ...
         ============================================================== -->
-   <xsd:import namespace="http://www.opengis.net/ogc"
-               schemaLocation="../../filter/1.0.0/filterCapabilities.xsd" />
+   <xsd:import namespace="http://www.opengis.net/ogc" schemaLocation="http://schemas.opengis.net/filter/1.0.0/filterCapabilities.xsd" />
 
    <!-- ==============================================================
         Global elements and attributes
@@ -332,18 +338,10 @@
         must always be available.  Individual servers can define
         additional elements representing other output formats. -->
    <xsd:element name="GML2" type="wfs:EmptyType"/>
-   <!-- WFS schema isn't enough, so we're adding these in for GeoServer as
-        output types, so that our clients can validate their caps docs. -->
-   <xsd:element name="_OutputFormat" type="wfs:EmptyType" />
-   <xsd:element name="GML2-GZIP" type="wfs:EmptyType" substitutionGroup="wfs:_OutputFormat"/>
-   <xsd:element name="SHAPE-ZIP" type="wfs:EmptyType" substitutionGroup="wfs:_OutputFormat"/>
-   <xsd:element name="GML3" type="wfs:EmptyType" substitutionGroup="wfs:_OutputFormat"/>
-   <xsd:element name="GEOJSON" type="wfs:EmptyType" substitutionGroup="wfs:_OutputFormat"/>
    <xsd:complexType name="ResultFormatType">
-      <xsd:choice maxOccurs="unbounded">
+      <xsd:sequence maxOccurs="unbounded">
          <xsd:element ref="wfs:GML2"/>
-         <xsd:element ref="wfs:_OutputFormat" />
-      </xsd:choice>
+      </xsd:sequence>
    </xsd:complexType>
 
    <!-- The SchemaDescriptionLanguageType type defines the schema languages

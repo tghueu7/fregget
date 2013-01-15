@@ -6,35 +6,28 @@
    xmlns:ows="http://www.opengis.net/ows/1.1"
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:xml="http://www.w3.org/XML/1998/namespace"
-   xmlns:gml="http://www.opengis.net/gml/3.2"
-   elementFormDefault="qualified" version="2.0.0">
+   elementFormDefault="qualified" version="2.0.1">
+   <xsd:annotation>
+      <xsd:documentation>This XML Schema Document includes and imports, 
+      directly or indirectly, all the XML Schemas defined by the 
+      Web Feature Service (WFS) Implementation Specification.
+
+      WFS is an OGC Standard.
+      Copyright (c) 2010 Open Geospatial Consortium.
+      To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .     
+      </xsd:documentation>
+   </xsd:annotation>
    <!-- ==============================================================
         Includes and Imports
         ============================================================== -->
    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
       schemaLocation="http://www.w3.org/2001/xml.xsd"/>
    <xsd:import namespace="http://www.w3.org/1999/xlink"
-      schemaLocation="http://schemas.opengis.net/xlink/1.0.0/xlinks.xsd"/>
+      schemaLocation="http://www.w3.org/1999/xlink.xsd"/>
    <xsd:import namespace="http://www.opengis.net/ows/1.1"
       schemaLocation="http://schemas.opengis.net/ows/1.1.0/owsAll.xsd"/>
    <xsd:import namespace="http://www.opengis.net/fes/2.0"
-      schemaLocation="../../filter/2.0.0/filterAll.xsd"/>
-
-   <!--(JD) The wfs schema does not actually import gml, but we rely on it
-       for feature encoding so we edit the schema to add the import -->
-   <xsd:import namespace="http://www.opengis.net/gml/3.2"
-      schemaLocation="../../gml/3.2.1/gml.xsd"/>
-   
-   <!--(JD) Importing the schems alone is not enough. We need an element that
-       references that schema so that it is resolved -->
-   <xsd:element name="__foo">
-     <xsd:complexType>
-        <xsd:sequence>
-           <xsd:element ref="gml:AbstractFeature"/>
-        </xsd:sequence>
-     </xsd:complexType>
-   </xsd:element>
-
+      schemaLocation="http://schemas.opengis.net/filter/2.0/filterAll.xsd"/>
    <!-- ================================================================== -->
    <!-- =   BASE REQUEST TYPE                                            = -->
    <!-- ================================================================== -->
@@ -200,7 +193,7 @@
                   <xsd:complexType>
                      <xsd:complexContent>
                         <xsd:restriction base="xsd:anyType">
-                           <xsd:attributeGroup ref="xlink:simpleLink"/>
+                           <xsd:attributeGroup ref="xlink:simpleAttrs"/>
                         </xsd:restriction>
                      </xsd:complexContent>
                   </xsd:complexType>
@@ -250,7 +243,7 @@
       </xsd:sequence>
    </xsd:complexType>
    <xsd:complexType name="MetadataURLType">
-      <xsd:attributeGroup ref="xlink:simpleLink"/>
+      <xsd:attributeGroup ref="xlink:simpleAttrs"/>
       <xsd:attribute name="about" type="xsd:anyURI"/>
    </xsd:complexType>
    <xsd:complexType name="ExtendedDescriptionType">
@@ -334,7 +327,7 @@
          <xsd:element ref="wfs:SimpleFeatureCollection"/>
       </xsd:choice>
       <xsd:attribute name="state" type="wfs:StateValueType"/>
-      <xsd:attributeGroup ref="xlink:simpleLink"/>
+      <xsd:attributeGroup ref="xlink:simpleAttrs"/>
    </xsd:complexType>
    <xsd:element name="Tuple" type="wfs:TupleType"/>
    <xsd:complexType name="TupleType">

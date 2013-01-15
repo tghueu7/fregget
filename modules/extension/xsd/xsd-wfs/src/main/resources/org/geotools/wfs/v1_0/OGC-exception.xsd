@@ -3,7 +3,14 @@
    targetNamespace="http://www.opengis.net/ogc"
    xmlns:ogc="http://www.opengis.net/ogc"
    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-   elementFormDefault="qualified">
+   elementFormDefault="qualified"
+   version="1.0.0.3">
+   
+   <!--
+      WFS is an OGC Standard.
+      Copyright (c) 2002,2010 Open Geospatial Consortium.
+      To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
+   -->
 
    <xsd:element name="ServiceExceptionReport">
       <xsd:annotation>
