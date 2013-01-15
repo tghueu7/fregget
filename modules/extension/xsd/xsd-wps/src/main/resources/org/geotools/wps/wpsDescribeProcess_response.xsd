@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:wps="http://www.opengis.net/wps/1.0.0" targetNamespace="http://www.opengis.net/wps/1.0.0" xml:lang="en" version="1.0.0 2010-02-03">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:wps="http://www.opengis.net/wps/1.0.0" targetNamespace="http://www.opengis.net/wps/1.0.0" xml:lang="en" version="1.0.0.3">
 	<annotation>
 		<appinfo>$Id: wpsDescribeProcess_response.xsd 2007-10-09 $</appinfo>
 		<documentation>
 			<description>This XML Schema Document encodes the WPS DescribeProcess operation response.</description>
 			<copyright>
 	WPS is an OGC Standard.
-	Copyright (c) 2007,2010 Open Geospatial Consortium, Inc. All Rights Reserved.
+	Copyright (c) 2007,2010 Open Geospatial Consortium.
 	To obtain additional rights of use, visit http://www.opengeospatial.org/legal/ .
 			</copyright>
 		</documentation>
@@ -14,6 +14,7 @@
 	<!-- =============================================================
 		includes and imports
 	============================================================== -->
+	<include schemaLocation="wpsAll.xsd"/>
 	<include schemaLocation="common/ResponseBaseType.xsd"/>
 	<include schemaLocation="common/DescriptionType.xsd"/>
 	<include schemaLocation="common/ProcessBriefType.xsd"/>
