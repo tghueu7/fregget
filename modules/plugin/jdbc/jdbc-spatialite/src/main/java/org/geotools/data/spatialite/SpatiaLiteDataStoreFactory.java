@@ -26,8 +26,6 @@ import org.apache.commons.dbcp.BasicDataSource;
 import org.geotools.jdbc.JDBCDataStore;
 import org.geotools.jdbc.JDBCDataStoreFactory;
 import org.geotools.jdbc.SQLDialect;
-import org.sqlite.SQLiteConfig;
-import org.sqlite.SQLiteJDBCLoader;
 
 /**
  * DataStoreFactory for SpatiaLite database.
@@ -76,7 +74,14 @@ public class SpatiaLiteDataStoreFactory extends JDBCDataStoreFactory {
             return false;
         }
 
-        return SQLiteJDBCLoader.isNativeMode();
+//        try {
+//            return SQLiteJDBCLoader.isNativeMode();
+//        } catch(Exception e) {
+//            return false;
+//        }
+
+        // TODO: find some tests
+        return true;
     }
 
     @Override
@@ -91,7 +96,7 @@ public class SpatiaLiteDataStoreFactory extends JDBCDataStoreFactory {
     
     @Override
     protected String getDriverClassName() {
-        return "org.sqlite.JDBC";
+        return "org.sqlitejdbcng.SqliteDriver";
     }
     
     public String getDescription() {
@@ -152,14 +157,14 @@ public class SpatiaLiteDataStoreFactory extends JDBCDataStoreFactory {
     }
     
     static void addConnectionProperties(BasicDataSource dataSource) {
-        SQLiteConfig config = new SQLiteConfig();
-        config.setSharedCache(true);
-        config.enableLoadExtension(true);
-        config.enableSpatiaLite(true);
-        
-        for (Map.Entry e : config.toProperties().entrySet()) {
-            dataSource.addConnectionProperty((String)e.getKey(), (String)e.getValue());
-        }
+//        SQLiteConfig config = new SQLiteConfig();
+//        config.setSharedCache(true);
+//        config.enableLoadExtension(true);
+//        // config.enableSpatiaLite(true);
+//        
+//        for (Map.Entry e : config.toProperties().entrySet()) {
+//            dataSource.addConnectionProperty((String)e.getKey(), (String)e.getValue());
+//        }
     }
     
     static void initializeDataSource(BasicDataSource dataSource) throws IOException {

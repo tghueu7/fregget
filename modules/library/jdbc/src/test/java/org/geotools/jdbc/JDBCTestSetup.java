@@ -16,7 +16,7 @@
  */
 package org.geotools.jdbc;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
@@ -135,7 +136,7 @@ public abstract class JDBCTestSetup {
             run( input );
         }
         catch( Exception ignore ) {
-            // ignore.printStackTrace(System.out);
+             ignore.printStackTrace(System.out);
         }
     }
 

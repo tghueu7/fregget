@@ -64,9 +64,10 @@ public class SpatiaLiteTestSetup extends JDBCTestSetup {
     @Override
     protected void setUpData() throws Exception {
         //drop old data
+        runSafe("DELETE FROM geometry_columns where f_table_name in ('ft1','ft2')");
         runSafe("DROP TABLE ft1");
         runSafe("DROP TABLE ft2");
-        runSafe("DELETE FROM geometry_columns where f_table_name in ('ft1','ft2')");
+        
         
         //create some data
         String sql = "CREATE TABLE ft1 (id INTEGER PRIMARY KEY)";

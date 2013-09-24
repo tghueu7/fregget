@@ -497,7 +497,7 @@ public class JDBCFeatureReader implements  FeatureReader<SimpleFeatureType, Simp
 
             exposePrimaryKeys = featureSource.getState().isExposePrimaryKeyColumns();
             for (int i = 0; i < md.getColumnCount(); i++) {
-            	String columnName =md.getColumnName(i + 1); 
+            	String columnName =md.getColumnLabel(i + 1); 
             	columnNames[i]=columnName;
             	if(!exposePrimaryKeys) {
                     for ( PrimaryKeyColumn col : key.getColumns() ) {
@@ -522,14 +522,14 @@ public class JDBCFeatureReader implements  FeatureReader<SimpleFeatureType, Simp
          O: for (int i = 0; i < md.getColumnCount(); i++) {
                 if(!exposePrimaryKeys) {
                     for( PrimaryKeyColumn col : key.getColumns() ) {
-                        if ( col.getName().equals( md.getColumnName(i+1))) {
+                        if ( col.getName().equals( md.getColumnLabel(i+1))) {
                             offset++;
                             continue O;
                         }
                     }
                 }
                 
-                index.put(md.getColumnName(i + 1), i - offset);
+                index.put(md.getColumnLabel(i + 1), i - offset);
             }
         }
 

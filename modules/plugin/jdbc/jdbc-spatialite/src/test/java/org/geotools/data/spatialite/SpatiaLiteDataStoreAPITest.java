@@ -19,6 +19,8 @@ package org.geotools.data.spatialite;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+import junit.textui.TestRunner;
+
 import org.geotools.feature.IllegalAttributeException;
 import org.geotools.jdbc.JDBCDataStoreAPITest;
 import org.geotools.jdbc.JDBCDataStoreAPITestSetup;
@@ -51,4 +53,7 @@ public class SpatiaLiteDataStoreAPITest extends JDBCDataStoreAPITest {
         //super.testGetFeatureReaderFilterTransaction();
     }
 
+    public static void main(String[] args) {
+        TestRunner.run(SpatiaLiteDataStoreAPITest.class);
+    }
 }

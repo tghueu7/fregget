@@ -16,13 +16,8 @@
  */
 package org.geotools.data.spatialite;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -73,27 +68,39 @@ public class SpatiaLiteDialect extends BasicSQLDialect {
     public void initializeConnection(Connection cx) throws SQLException {
         Statement st = cx.createStatement();
         try {
-            st = cx.createStatement();
+            boolean spatialiteAvailable = false;
+            try {
+                st.execute("SELECT spatialite_version()");
+                spatialiteAvailable = true;
+            } catch(SQLException e) {
+                // fine, it's not available
+            } finally {
+            }
+            if(!spatialiteAvailable) {
+                st.execute("SELECT load_extension('/usr/lib/libspatialite.so.3')");
+            }
             
             //determine if the spatial metadata tables need to be created
             boolean initSpatialMetaData = false;
             try {
-                st.execute( "SELECT count(*) from geometry_columns");
+                st.execute("SELECT * from geometry_columns limit 1");
             }catch( SQLException e ) {
                 initSpatialMetaData = true;
+            } finally {
             }
             
             if ( initSpatialMetaData ) {
                 st.execute( "SELECT InitSpatialMetaData()");
-                st.close();
-                st = cx.createStatement();
             }
             
-            //determine if the spatial ref sys table needs to be loaded
-            boolean loadSpatialRefSys = false;
-            ResultSet rs = st.executeQuery( "SELECT * FROM spatial_ref_sys");
+            // determine if the spatial ref sys table needs to be loaded
+            boolean loadSpatialRefSys = true;
+            ResultSet rs = null;
             try {
+                rs = st.executeQuery( "SELECT * FROM spatial_ref_sys limit 1");
                 loadSpatialRefSys = !rs.next();
+            } catch(SQLException e) {
+                loadSpatialRefSys = true;
             }
             finally {
                 dataStore.closeSafe( rs );
@@ -134,7 +141,7 @@ public class SpatiaLiteDialect extends BasicSQLDialect {
             dataStore.closeSafe( st );
         }
     }
-
+    
     @Override
     public boolean includeTable(String schemaName, String tableName, Connection cx) throws SQLException {
         if ("spatial_ref_sys".equalsIgnoreCase(tableName)) {
