@@ -398,10 +398,10 @@ public class ImageMosaicReaderTest extends Assert{
 //	@Ignore
 	public void timeElevation() throws IOException, ParseException, NoSuchAuthorityCodeException, FactoryException {
     	final File workDir=new File(TestData.file(this, "."),"watertemp2");
-//    	if(!workDir.mkdir()){
-//    	    FileUtils.deleteDirectory(workDir);
-//    	    assertTrue("Unable to create workdir:"+workDir,workDir.mkdir());
-//    	}
+    	if(!workDir.mkdir()){
+    	    FileUtils.deleteDirectory(workDir);
+    	    assertTrue("Unable to create workdir:"+workDir,workDir.mkdir());
+    	}
     	FileUtils.copyFile(TestData.file(this, "watertemp.zip"), new File(workDir,"watertemp.zip"));
     	TestData.unzipFile(this, "watertemp2/watertemp.zip");
     	
