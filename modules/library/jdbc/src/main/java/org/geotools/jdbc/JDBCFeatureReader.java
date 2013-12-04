@@ -302,13 +302,14 @@ public class JDBCFeatureReader implements  FeatureReader<SimpleFeatureType, Simp
                     Object value = null;
     
                     // is this a geometry?
+                    int columnIndex = offset + attributeRsIndex[i];
                     if (type instanceof GeometryDescriptor) {
                         GeometryDescriptor gatt = (GeometryDescriptor) type;
                         
                         //read the geometry
                         try {
                             value = dataStore.getSQLDialect()
-                                             .decodeGeometryValue(gatt, rs, offset+attributeRsIndex[i],
+                                             .decodeGeometryValue(gatt, rs, columnIndex,
                                     geometryFactory, cx);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
@@ -323,7 +324,12 @@ public class JDBCFeatureReader implements  FeatureReader<SimpleFeatureType, Simp
                             }
                         }
                     } else {
-                        value = rs.getObject(offset+attributeRsIndex[i]);
+                        Class<?> binding = type.getType().getBinding();
+                        if(binding == String.class) {
+                            value = rs.getString(columnIndex);
+                        } else {
+                            value = rs.getObject(columnIndex);
+                        }
                     }
     
                     // they value may need conversion. We let converters chew the initial
