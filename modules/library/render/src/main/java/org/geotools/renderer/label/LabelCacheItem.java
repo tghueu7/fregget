@@ -90,6 +90,8 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
         return goodnessOfFit;
     }
 
+    boolean partialsEnabled = false;
+
     /**
      * A value between 0 and 1 representing the portion of the label
      * that overlaps with the geometry (atm used only for polygons)
@@ -189,7 +191,7 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
      * Returns an example geometry from the list of geometries.
      */
     public Geometry getGeometry() {
-        return (Geometry) geoms.get(0);
+        return geoms.get(0);
     }
 
     /**
@@ -381,6 +383,14 @@ public class LabelCacheItem implements Comparable<LabelCacheItem> {
     PolygonAlignOptions getPolygonAlign() {
         return polygonAlign;
     }
-    
+
+    public boolean isPartialsEnabled() {
+        return partialsEnabled;
+    }
+
+    public void setPartialsEnabled(boolean partialsEnabled) {
+        this.partialsEnabled = partialsEnabled;
+    }
+
 }
 
