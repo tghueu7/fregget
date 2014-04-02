@@ -21,6 +21,8 @@ import org.opengis.referencing.operation.MathTransform;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.MultiLineString;
+import com.vividsolutions.jts.geom.MultiPoint;
+import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.io.WKTReader;
 
 /**
@@ -33,6 +35,8 @@ public class ProjectionHandlerTest {
     static final double EPS = 1e-6;
 
     static CoordinateReferenceSystem WGS84;
+    
+    static CoordinateReferenceSystem ED50_LATLON;
 
     static CoordinateReferenceSystem UTM32N;
 
@@ -46,6 +50,7 @@ public class ProjectionHandlerTest {
         UTM32N = CRS.decode("EPSG:32632", true);
         MERCATOR_SHIFTED = CRS.decode("EPSG:3349", true);
         MERCATOR = CRS.decode("EPSG:3395", true);
+        ED50_LATLON = CRS.decode("urn:x-ogc:def:crs:EPSG:4230", false);
     }
 
     @Test
@@ -59,6 +64,20 @@ public class ProjectionHandlerTest {
 
         ReferencedEnvelope expected = new ReferencedEnvelope(170, 180, -90, 45, WGS84);
         assertTrue(envelopes.remove(wgs84Envelope));
+        assertEquals(expected, envelopes.get(0));
+    }
+    
+    @Test
+    public void testQueryWrappingED50LatLon() throws Exception {
+        ReferencedEnvelope envelope = new ReferencedEnvelope(-90, 45, -190, 60, ED50_LATLON);
+        ProjectionHandler handler = ProjectionHandlerFinder.getHandler(envelope, true);
+
+        assertNull(handler.validArea);
+        List<ReferencedEnvelope> envelopes = handler.getQueryEnvelopes(ED50_LATLON);
+        assertEquals(2, envelopes.size());
+
+        ReferencedEnvelope expected = new ReferencedEnvelope(170, 180, -90, 45, ED50_LATLON);
+        assertTrue(envelopes.remove(envelope));
         assertEquals(expected, envelopes.get(0));
     }
 
@@ -166,7 +185,7 @@ public class ProjectionHandlerTest {
         // transform and post process
         MathTransform mt = CRS.findMathTransform(WGS84, MERCATOR, true);
         Geometry transformed = JTS.transform(g, mt);
-        Geometry postProcessed = handler.postProcess(mt.inverse(),transformed);
+        Geometry postProcessed = handler.postProcess(mt.inverse(), MERCATOR, transformed);
         Envelope env = postProcessed.getEnvelopeInternal();
         // check the geometry is in the same area as the rendering envelope
         assertEquals(mercatorEnvelope.getMinX(), env.getMinX(), EPS);
@@ -176,7 +195,7 @@ public class ProjectionHandlerTest {
     @Test
     public void testWrapGeometrySmall() throws Exception {
         // projected dateline CRS
-        CoordinateReferenceSystem FIJI = CRS.decode("EPSG:3460");
+        CoordinateReferenceSystem FIJI = CRS.decode("EPSG:3460", true);
         // a small geometry that will cross the dateline
         Geometry g = new WKTReader().read("POLYGON ((2139122 5880020, 2139122 5880030, 2139922 5880030, 2139122 5880020))");
         Geometry original = (Geometry) g.clone();
@@ -193,7 +212,7 @@ public class ProjectionHandlerTest {
         // post process
         MathTransform mt = CRS.findMathTransform(FIJI, WGS84);
         Geometry transformed = JTS.transform(g, mt);
-        Geometry postProcessed = handler.postProcess(mt.inverse(), transformed);
+        Geometry postProcessed = handler.postProcess(mt.inverse(), FIJI, transformed);
         // check the geometry is in the same area as the rendering envelope
         assertEquals(transformed, postProcessed);
     }
@@ -214,9 +233,32 @@ public class ProjectionHandlerTest {
         // no cutting expected
         assertEquals(original, preProcessed);
         // post process (provide identity transform to force wrap heuristic)
-        Geometry postProcessed = handler.postProcess(CRS.findMathTransform(WGS84, WGS84), g);
+        Geometry postProcessed = handler.postProcess(CRS.findMathTransform(WGS84, WGS84), WGS84, g);
         // check the geometry is in the same area as the rendering envelope
         assertEquals(original, postProcessed);
+    }
+    
+    @Test
+    public void testWrapGeometryReprojectToLatLonED50() throws Exception {
+        ReferencedEnvelope world = new ReferencedEnvelope(-80, 80, -180, 180, ED50_LATLON);
+
+        // a geometry that will cross the dateline and sitting in the same area as the
+        // rendering envelope (with wgs84 lon/latcoordinates)
+        String wkt = "POLYGON((178 -80, 178 80, 182 80, 182 80, 178 -80))";
+        Geometry g = new WKTReader().read(wkt);
+        Geometry original = new WKTReader().read(wkt);
+        MathTransform mt = CRS.findMathTransform(WGS84, ED50_LATLON);
+        Geometry reprojected = JTS.transform(original, mt);
+
+        // make sure the geometry is not wrapped, but it is preserved
+        ProjectionHandler handler = ProjectionHandlerFinder.getHandler(world, true);
+        assertTrue(handler.requiresProcessing(WGS84, g));
+        Geometry preProcessed = handler.preProcess(WGS84, g);
+        // no cutting expected
+        assertEquals(original, preProcessed);
+        // post process, this should wrap the geometry and clone it
+        Geometry postProcessed = handler.postProcess(mt, ED50_LATLON, reprojected);
+        assertTrue(postProcessed instanceof MultiPolygon);
     }
     
     @Test
@@ -231,7 +273,7 @@ public class ProjectionHandlerTest {
         // no cutting expected
         assertEquals(original, preProcessed);
         // post process (provide identity transform to force wrap heuristic)
-        Geometry postProcessed = handler.postProcess(CRS.findMathTransform(WGS84, WGS84), g);
+        Geometry postProcessed = handler.postProcess(CRS.findMathTransform(WGS84, WGS84), WGS84, g);
         // check the geometry is in the same area as the rendering envelope
         assertEquals(original, postProcessed);
     }
@@ -252,7 +294,7 @@ public class ProjectionHandlerTest {
         // no cutting expected
         assertEquals(original, preProcessed);
         // post process
-        Geometry postProcessed = handler.postProcess(null,g);                
+        Geometry postProcessed = handler.postProcess(null, WGS84, g);                
         // check we have replicated the geometry in both directions
         Envelope ppEnvelope = postProcessed.getEnvelopeInternal();
         Envelope expected = new Envelope(-538, 538, -90, 90);
@@ -278,7 +320,7 @@ public class ProjectionHandlerTest {
         // transform and post process
         MathTransform mt = CRS.findMathTransform(WGS84, MERCATOR, true);
         Geometry transformed = JTS.transform(g, mt);
-        Geometry postProcessed = handler.postProcess(mt,transformed);
+        Geometry postProcessed = handler.postProcess(mt, WGS84, transformed);
         // should have been duplicated in two parts
         assertTrue(postProcessed instanceof MultiLineString);
         MultiLineString mls = (MultiLineString) postProcessed;
@@ -303,7 +345,7 @@ public class ProjectionHandlerTest {
         assertTrue(handler.requiresProcessing(WGS84, g));
         Geometry preProcessed = handler.preProcess(WGS84, g);
         assertEquals(g, preProcessed);
-        Geometry postProcessed = handler.postProcess(IdentityTransform.create(2), g);
+        Geometry postProcessed = handler.postProcess(IdentityTransform.create(2), WGS84, g);
         // should have been copied several times, but not above the limit
         assertTrue(postProcessed instanceof MultiLineString);
         MultiLineString mls = (MultiLineString) postProcessed;

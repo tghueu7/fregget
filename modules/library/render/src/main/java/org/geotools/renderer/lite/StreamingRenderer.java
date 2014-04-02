@@ -3368,7 +3368,7 @@ public class StreamingRenderer implements GTRenderer {
                             }
                         }
                     }
-                    geom = projectionHandler.postProcess(reverse, geom);
+                    geom = projectionHandler.postProcess(reverse, destinationCrs, geom);
                     if(geom == null) {
                         shape = null;
                     } else {

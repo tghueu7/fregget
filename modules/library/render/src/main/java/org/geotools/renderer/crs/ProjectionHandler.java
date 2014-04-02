@@ -29,6 +29,7 @@ import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
+import org.opengis.referencing.crs.GeographicCRS;
 import org.opengis.referencing.operation.TransformException;
 
 import com.vividsolutions.jts.geom.Envelope;
@@ -88,25 +89,92 @@ public class ProjectionHandler {
      */
     public List<ReferencedEnvelope> getQueryEnvelopes(CoordinateReferenceSystem queryCRS)
             throws TransformException, FactoryException {
-        // check if we are crossing the dateline
-        ReferencedEnvelope re = renderingEnvelope.transform(WGS84, true, 10);
-        if (re.getMinX() >= -180.0 && re.getMaxX() <= 180)
-            return Collections.singletonList(renderingEnvelope.transform(queryCRS, true, 10));
+        CoordinateReferenceSystem sourceCRS = renderingEnvelope.getCoordinateReferenceSystem();
+        if(sourceCRS instanceof GeographicCRS && !CRS.equalsIgnoreMetadata(sourceCRS, WGS84)) {
+            // special case, if we just transform the coordinates are going to be wrapped by the referencing
+            // subsystem directly
+            ReferencedEnvelope re = renderingEnvelope;
+            List<ReferencedEnvelope> envelopes = new ArrayList<ReferencedEnvelope>();
+            envelopes.add(re);
 
-        // We need to split reprojected envelope and normalize it. To be lenient with
-        // situations in which the data is just broken (people saying 4326 just because they
-        // have no idea at all) we don't actually split, but add elements
-        List<ReferencedEnvelope> envelopes = new ArrayList<ReferencedEnvelope>();
-        envelopes.add(re);
-        if (re.getMinX() < -180) {
-            envelopes.add(new ReferencedEnvelope(re.getMinX() + 360, 180, re.getMinY(), re
-                    .getMaxY(), re.getCoordinateReferenceSystem()));
+            if(CRS.getAxisOrder(sourceCRS) == CRS.AxisOrder.NORTH_EAST) {
+                if (re.getMinY() >= -180.0 && re.getMaxY() <= 180) {
+                    return Collections.singletonList(renderingEnvelope.transform(queryCRS, true, 10));
+                }
+                
+                // We need to split reprojected envelope and normalize it. To be lenient with
+                // situations in which the data is just broken (people saying 4326 just because they
+                // have no idea at all) we don't actually split, but add elements
+                if (re.getMinY() < -180) {
+                    envelopes.add(new ReferencedEnvelope(re.getMinY() + 360, 180, re.getMinX(), re
+                            .getMaxX(), re.getCoordinateReferenceSystem()));
+                }
+                if (re.getMaxY() > 180) {
+                    envelopes.add(new ReferencedEnvelope(-180, re.getMaxY() - 360, re.getMinX(), re
+                            .getMaxX(), re.getCoordinateReferenceSystem()));
+                }
+                
+            } else {
+                if (re.getMinX() >= -180.0 && re.getMaxX() <= 180) {
+                    return Collections.singletonList(renderingEnvelope.transform(queryCRS, true, 10));
+                }
+            
+                // We need to split reprojected envelope and normalize it. To be lenient with
+                // situations in which the data is just broken (people saying 4326 just because they
+                // have no idea at all) we don't actually split, but add elements
+                
+                if (re.getMinX() < -180) {
+                    envelopes.add(new ReferencedEnvelope(re.getMinX() + 360, 180, re.getMinY(), re
+                            .getMaxY(), re.getCoordinateReferenceSystem()));
+                }
+                if (re.getMaxX() > 180) {
+                    envelopes.add(new ReferencedEnvelope(-180, re.getMaxX() - 360, re.getMinY(), re
+                            .getMaxY(), re.getCoordinateReferenceSystem()));
+                }
+            }
+    
+            mergeEnvelopes(envelopes);
+            reprojectEnvelopes(queryCRS, envelopes);
+    
+            return envelopes;
+            
+            
+        } else {
+            // check if we are crossing the dateline
+            ReferencedEnvelope re = renderingEnvelope.transform(WGS84, true, 10);
+            if (re.getMinX() >= -180.0 && re.getMaxX() <= 180)
+                return Collections.singletonList(renderingEnvelope.transform(queryCRS, true, 10));
+    
+            // We need to split reprojected envelope and normalize it. To be lenient with
+            // situations in which the data is just broken (people saying 4326 just because they
+            // have no idea at all) we don't actually split, but add elements
+            List<ReferencedEnvelope> envelopes = new ArrayList<ReferencedEnvelope>();
+            envelopes.add(re);
+            if (re.getMinX() < -180) {
+                envelopes.add(new ReferencedEnvelope(re.getMinX() + 360, 180, re.getMinY(), re
+                        .getMaxY(), re.getCoordinateReferenceSystem()));
+            }
+            if (re.getMaxX() > 180) {
+                envelopes.add(new ReferencedEnvelope(-180, re.getMaxX() - 360, re.getMinY(), re
+                        .getMaxY(), re.getCoordinateReferenceSystem()));
+            }
+    
+            mergeEnvelopes(envelopes);
+            reprojectEnvelopes(queryCRS, envelopes);
+    
+            return envelopes;
         }
-        if (re.getMaxX() > 180) {
-            envelopes.add(new ReferencedEnvelope(-180, re.getMaxX() - 360, re.getMinY(), re
-                    .getMaxY(), re.getCoordinateReferenceSystem()));
-        }
+    }
 
+    private void reprojectEnvelopes(CoordinateReferenceSystem queryCRS,
+            List<ReferencedEnvelope> envelopes) throws TransformException, FactoryException {
+        // reproject the surviving envelopes
+        for (int i = 0; i < envelopes.size(); i++) {
+            envelopes.set(i, envelopes.get(i).transform(queryCRS, true, 10));
+        }
+    }
+
+    private void mergeEnvelopes(List<ReferencedEnvelope> envelopes) {
         // the envelopes generated might overlap, check and merge if necessary, we
         // don't want the data backend to deal with ORs against the spatial index
         // unless necessary
@@ -127,13 +195,6 @@ public class ProjectionHandler {
                 }
             }
         }
-
-        // reproject the surviving envelopes
-        for (int i = 0; i < envelopes.size(); i++) {
-            envelopes.set(i, envelopes.get(i).transform(queryCRS, true, 10));
-        }
-
-        return envelopes;
     }
 
     /**
@@ -211,7 +272,7 @@ public class ProjectionHandler {
      * is not to be drawn.
      * @param mt optional reverse transformation to facilitate unwrapping
      */
-    public Geometry postProcess(MathTransform mt,Geometry geometry) {
+    public Geometry postProcess(MathTransform mt, CoordinateReferenceSystem targetCRS, Geometry geometry) {
         return geometry;
     }
     

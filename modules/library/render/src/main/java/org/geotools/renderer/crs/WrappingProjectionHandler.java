@@ -80,11 +80,18 @@ public class WrappingProjectionHandler extends ProjectionHandler {
     }
 
     @Override
-    public Geometry postProcess(MathTransform mt,Geometry geometry) {
+    public Geometry postProcess(MathTransform mt, CoordinateReferenceSystem targetCRS, Geometry geometry) {
         // First let's check if the geometry is undoubtedly not going to need
         // processing
         Envelope env = geometry.getEnvelopeInternal();
-        if (env.getWidth() < radius && renderingEnvelope.contains(env)
+        final double width;
+        final boolean northEast = CRS.getAxisOrder(targetCRS) == CRS.AxisOrder.NORTH_EAST;
+        if(northEast) {
+            width = env.getHeight();
+        } else {
+            width = env.getWidth();
+        }
+        if (width < radius && renderingEnvelope.contains(env)
                 && renderingEnvelope.getWidth() <= radius * 2) {
             return geometry;
         }
@@ -93,8 +100,8 @@ public class WrappingProjectionHandler extends ProjectionHandler {
         // anything larger than half of the world might have wrapped it, however,
         // if it's touching both datelines then don't wrap it, as it might be something
         // like antarctica
-        if (env.getWidth() > radius && env.getWidth() < radius * 2) {
-            geometry.apply(new WrappingCoordinateFilter(radius, radius * 2, mt));
+        if (width > radius && width < radius * 2) {
+            geometry.apply(new WrappingCoordinateFilter(radius, radius * 2, mt, northEast));
             geometry.geometryChanged();
             env = geometry.getEnvelopeInternal();
         }
@@ -110,10 +117,20 @@ public class WrappingProjectionHandler extends ProjectionHandler {
 
         // search the west-most location inside the current rendering envelope
         // (there may be many)
-        double min = env.getMinX();
-        double max = env.getMaxX();
-        double lowLimit = Math.max(renderingEnvelope.getMinX(), renderingEnvelope.getMedian(0) - maxWraps * radius * 2); 
-        double highLimit = Math.min(renderingEnvelope.getMaxX(), renderingEnvelope.getMedian(0) + maxWraps * radius * 2);
+        double base, min, max, lowLimit, highLimit;
+        if(northEast) {
+            base = env.getMinY();
+            min = env.getMinY();
+            max = env.getMaxY();
+            lowLimit = Math.max(renderingEnvelope.getMinY(), renderingEnvelope.getMedian(1) - maxWraps * radius * 2); 
+            highLimit = Math.min(renderingEnvelope.getMaxY(), renderingEnvelope.getMedian(1) + maxWraps * radius * 2);
+        } else {
+            base = env.getMinX();
+            min = env.getMinX();
+            max = env.getMaxX();
+            lowLimit = Math.max(renderingEnvelope.getMinX(), renderingEnvelope.getMedian(0) - maxWraps * radius * 2); 
+            highLimit = Math.min(renderingEnvelope.getMaxX(), renderingEnvelope.getMedian(0) + maxWraps * radius * 2);
+        }
         while (min > lowLimit) {
             min -= radius * 2;
         }
@@ -124,13 +141,13 @@ public class WrappingProjectionHandler extends ProjectionHandler {
         // clone and offset as necessary
         geomType = accumulate(geoms, geometry, geomType);
         while (min <= highLimit) {
-            double offset = min - env.getMinX();
+            double offset = min - base;
             if (Math.abs(offset) < radius) {
                 // in this case we can keep the original geometry, which is already in
             } else {
                 // in all other cases we make a copy and offset it
                 Geometry offseted = (Geometry) geometry.clone();
-                offseted.apply(new OffsetOrdinateFilter(0, offset));
+                offseted.apply(new OffsetOrdinateFilter(northEast ? 1 : 0, offset));
                 offseted.geometryChanged();               
                 geomType = accumulate(geoms, offseted, geomType);
             }
