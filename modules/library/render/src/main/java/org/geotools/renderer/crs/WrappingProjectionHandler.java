@@ -117,31 +117,26 @@ public class WrappingProjectionHandler extends ProjectionHandler {
 
         // search the west-most location inside the current rendering envelope
         // (there may be many)
-        double base, min, max, lowLimit, highLimit;
+        double base, curr, lowLimit, highLimit;
         if(northEast) {
             base = env.getMinY();
-            min = env.getMinY();
-            max = env.getMaxY();
+            curr = env.getMinY();
             lowLimit = Math.max(renderingEnvelope.getMinY(), renderingEnvelope.getMedian(1) - maxWraps * radius * 2); 
             highLimit = Math.min(renderingEnvelope.getMaxY(), renderingEnvelope.getMedian(1) + maxWraps * radius * 2);
         } else {
             base = env.getMinX();
-            min = env.getMinX();
-            max = env.getMaxX();
+            curr = env.getMinX();
             lowLimit = Math.max(renderingEnvelope.getMinX(), renderingEnvelope.getMedian(0) - maxWraps * radius * 2); 
             highLimit = Math.min(renderingEnvelope.getMaxX(), renderingEnvelope.getMedian(0) + maxWraps * radius * 2);
         }
-        while (min > lowLimit) {
-            min -= radius * 2;
-        }
-        while (max < highLimit) {
-            max += radius * 2;
+        while (curr > lowLimit) {
+            curr -= radius * 2;
         }
 
         // clone and offset as necessary
         geomType = accumulate(geoms, geometry, geomType);
-        while (min <= highLimit) {
-            double offset = min - base;
+        while (curr <= highLimit) {
+            double offset = curr - base;
             if (Math.abs(offset) < radius) {
                 // in this case we can keep the original geometry, which is already in
             } else {
@@ -152,7 +147,7 @@ public class WrappingProjectionHandler extends ProjectionHandler {
                 geomType = accumulate(geoms, offseted, geomType);
             }
 
-            min += radius * 2;
+            curr += radius * 2;
         }
         
         // if we could not find any geom type we stumbled int an empty geom collection

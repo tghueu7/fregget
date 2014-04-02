@@ -44,12 +44,15 @@ public class ProjectionHandlerTest {
 
     static CoordinateReferenceSystem MERCATOR_SHIFTED;
 
+    static CoordinateReferenceSystem ED50;
+
     @BeforeClass
     public static void setup() throws Exception {
         WGS84 = DefaultGeographicCRS.WGS84;
         UTM32N = CRS.decode("EPSG:32632", true);
         MERCATOR_SHIFTED = CRS.decode("EPSG:3349", true);
         MERCATOR = CRS.decode("EPSG:3395", true);
+        ED50 = CRS.decode("EPSG:4230", true);
         ED50_LATLON = CRS.decode("urn:x-ogc:def:crs:EPSG:4230", false);
     }
 
@@ -258,6 +261,29 @@ public class ProjectionHandlerTest {
         assertEquals(original, preProcessed);
         // post process, this should wrap the geometry and clone it
         Geometry postProcessed = handler.postProcess(mt, ED50_LATLON, reprojected);
+        assertTrue(postProcessed instanceof MultiPolygon);
+    }
+    
+    @Test
+    public void testWrapGeometryReprojectToED50() throws Exception {
+        ReferencedEnvelope world = new ReferencedEnvelope(-80, 80, -180, 180, ED50);
+
+        // a geometry that will cross the dateline and sitting in the same area as the
+        // rendering envelope (with wgs84 lon/latcoordinates)
+        String wkt = "POLYGON((178 -80, 178 80, 182 80, 182 80, 178 -80))";
+        Geometry g = new WKTReader().read(wkt);
+        Geometry original = new WKTReader().read(wkt);
+        MathTransform mt = CRS.findMathTransform(WGS84, ED50);
+        Geometry reprojected = JTS.transform(original, mt);
+
+        // make sure the geometry is not wrapped, but it is preserved
+        ProjectionHandler handler = ProjectionHandlerFinder.getHandler(world, true);
+        assertTrue(handler.requiresProcessing(WGS84, g));
+        Geometry preProcessed = handler.preProcess(WGS84, g);
+        // no cutting expected
+        assertEquals(original, preProcessed);
+        // post process, this should wrap the geometry and clone it
+        Geometry postProcessed = handler.postProcess(mt, ED50, reprojected);
         assertTrue(postProcessed instanceof MultiPolygon);
     }
     

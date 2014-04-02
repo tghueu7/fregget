@@ -118,11 +118,12 @@ class WrappingCoordinateFilter implements GeometryComponentFilter {
                         src = new double[] {cs.getX(i - i), lastOrdinate, cs.getX(i), ordinate};
                     }
                     double[] dest = new double[4];
+                    double[] mid = new double[4];
                     try {
                         mt.transform(src, 0, dest, 0, 2);
                         // find the midpoint coordinate
-                        src[0] = Math.min(dest[0], dest[2]) + Math.abs(dest[2] - dest[0]) / 2;
-                        src[1] = Math.min(dest[1], dest[3]) + Math.abs(dest[3] - dest[1]) / 2;
+                        mid[0] = Math.min(dest[0], dest[2]) + Math.abs(dest[2] - dest[0]) / 2;
+                        mid[1] = Math.min(dest[1], dest[3]) + Math.abs(dest[3] - dest[1]) / 2;
                         // and convert back again
                         mt.inverse().transform(src, 0, dest, 0, 1);
                         // if the midpoint isn't between the two end points, it's a wrap
