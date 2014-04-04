@@ -245,22 +245,25 @@ public class ProjectionHandlerTest {
     public void testWrapGeometryReprojectToLatLonED50() throws Exception {
         ReferencedEnvelope world = new ReferencedEnvelope(-80, 80, -180, 180, ED50_LATLON);
 
+        // make sure the geometry is not wrapped, but it is preserved
+        ProjectionHandler handler = ProjectionHandlerFinder.getHandler(world, true);
+
         // a geometry that will cross the dateline and sitting in the same area as the
         // rendering envelope (with wgs84 lon/latcoordinates)
         String wkt = "POLYGON((178 -80, 178 80, 182 80, 182 80, 178 -80))";
         Geometry g = new WKTReader().read(wkt);
         Geometry original = new WKTReader().read(wkt);
         MathTransform mt = CRS.findMathTransform(WGS84, ED50_LATLON);
-        Geometry reprojected = JTS.transform(original, mt);
+        MathTransform prepared = handler.prepareTransform(mt, WGS84, ED50_LATLON);
+        Geometry reprojected = JTS.transform(original, prepared);
 
-        // make sure the geometry is not wrapped, but it is preserved
-        ProjectionHandler handler = ProjectionHandlerFinder.getHandler(world, true);
+        
         assertTrue(handler.requiresProcessing(WGS84, g));
         Geometry preProcessed = handler.preProcess(WGS84, g);
         // no cutting expected
         assertEquals(original, preProcessed);
         // post process, this should wrap the geometry and clone it
-        Geometry postProcessed = handler.postProcess(mt, ED50_LATLON, reprojected);
+        Geometry postProcessed = handler.postProcess(prepared, ED50_LATLON, reprojected);
         assertTrue(postProcessed instanceof MultiPolygon);
     }
     

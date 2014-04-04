@@ -20,16 +20,19 @@ import static org.geotools.referencing.crs.DefaultGeographicCRS.WGS84;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.geotools.geometry.jts.GeometryClipper;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
+import org.geotools.referencing.operation.transform.ConcatenatedTransform;
+import org.geotools.referencing.operation.transform.GeocentricTransform;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.crs.GeographicCRS;
+import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
 
 import com.vividsolutions.jts.geom.Envelope;
@@ -37,8 +40,6 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryCollection;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.precision.EnhancedPrecisionOp;
-
-import org.opengis.referencing.operation.MathTransform;
 
 /**
  * A class that can perform transformations on geometries to handle the singularity of the rendering
@@ -266,8 +267,68 @@ public class ProjectionHandler {
         else
             return result;
     }
-
+    
     /**
+     * Can modify/wrap the transform to handle specific projection issues
+     * @param mt
+     * @param sourceCRS
+     * @param targetCRS
+     * @return
+     */
+    public MathTransform prepareTransform(MathTransform mt, CoordinateReferenceSystem sourceCRS, CoordinateReferenceSystem targetCRS) {
+    	List<MathTransform> elements = new ArrayList<MathTransform>();
+    	accumulateTransforms(mt, elements);
+    	
+    	System.out.println(mt);
+    	
+    	MathTransform result;
+    	List<MathTransform> wrapped = new ArrayList<MathTransform>();
+    	List<MathTransform> datumShiftChain = null;
+    	for (MathTransform element : elements) {
+    		if(datumShiftChain != null) {
+    			datumShiftChain.add(element);
+    			if(element.getClass().getName().equals(GeocentricTransform.class.getName() + "$Inverse")) {
+    				MathTransform combined = concatenateTransforms(datumShiftChain);
+    				GeographicOffsetWrapper wrapper = new GeographicOffsetWrapper(combined);
+    				wrapped.add(wrapper);
+    			} 
+    		} else if(element instanceof GeocentricTransform) {
+				datumShiftChain = new ArrayList<MathTransform>();
+				datumShiftChain.add(element);
+			} else {
+				wrapped.add(element);
+			}
+		}
+    	
+    	return mt;
+    }
+
+    private MathTransform concatenateTransforms(List<MathTransform> datumShiftChain) {
+		if(datumShiftChain.size() == 1) {
+			return datumShiftChain.get(0);
+		} else {
+			MathTransform mt = ConcatenatedTransform.create(datumShiftChain.get(0), datumShiftChain.get(0));
+			for (int i = 2; i < datumShiftChain.size(); i++) {
+				MathTransform curr = datumShiftChain.get(i);
+				mt = ConcatenatedTransform.create(mt, curr);
+			}
+			
+			return mt;
+		}
+	}
+
+	private void accumulateTransforms(MathTransform mt, List<MathTransform> elements) {
+		if(mt instanceof ConcatenatedTransform) {
+			ConcatenatedTransform ct = (ConcatenatedTransform) mt;
+			accumulateTransforms(ct.transform1, elements);
+			accumulateTransforms(ct.transform2, elements);
+		} else {
+			elements.add(mt);
+		}
+		
+	}
+
+	/**
      * Processes the geometry already projected to the target SRS. May return null if the geometry
      * is not to be drawn.
      * @param mt optional reverse transformation to facilitate unwrapping

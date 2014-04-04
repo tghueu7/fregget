@@ -3349,7 +3349,8 @@ public class StreamingRenderer implements GTRenderer {
                 } else {
                     // first generalize and transform the geometry into the rendering CRS
                     Decimator d = getDecimator(sa.xform);
-                    d.decimateTransformGeneralize(geom, sa.crsxform);
+                    MathTransform preparedTransform = projectionHandler.prepareTransform(sa.crsxform, sa.crs, destinationCrs);
+					d.decimateTransformGeneralize(geom, preparedTransform);
                     geom.geometryChanged();
                     // then post process it (provide reverse transform if available)
                     MathTransform reverse = null;
