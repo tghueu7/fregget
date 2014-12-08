@@ -20,7 +20,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,7 +38,6 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.sld.SLDConfiguration;
 import org.geotools.styling.NamedLayer;
-import org.geotools.styling.SLDParser;
 import org.geotools.styling.SLDTransformer;
 import org.geotools.styling.StyleFactory;
 import org.geotools.styling.StyledLayerDescriptor;
@@ -67,8 +65,11 @@ public class TranslationIntegrationTest extends CssBaseTest {
     private static final StyleFactory STYLE_FACTORY = CommonFactoryFinder.getStyleFactory();
     File file;
 
-    public TranslationIntegrationTest(String name, File file) {
+    boolean exclusiveRulesEnabled;
+
+    public TranslationIntegrationTest(String name, File file, Boolean exclusiveRulesEnabled) {
         this.file = file;
+        this.exclusiveRulesEnabled = exclusiveRulesEnabled;
     }
 
     @Parameters(name = "{0}")
@@ -77,7 +78,8 @@ public class TranslationIntegrationTest extends CssBaseTest {
         File root = new File("./src/test/resources/css");
         for (File file : root.listFiles()) {
             if (file.getName().endsWith(".css")) {
-                result.add(new Object[] { file.getName(), file });
+                result.add(new Object[] { file.getName(), file, true });
+                result.add(new Object[] { file.getName() + "-first", file, false });
             }
         }
 
@@ -88,18 +90,12 @@ public class TranslationIntegrationTest extends CssBaseTest {
     public void translateTest() throws Exception {
         String css = FileUtils.readFileToString(file);
         File sldFile = new File(file.getParentFile(), FilenameUtils.getBaseName(file.getName())
+                + (exclusiveRulesEnabled ? "" : "-first")
                 + ".sld");
         if (!sldFile.exists()) {
-//            Style s = CSS2SLD.convert(new StringReader(css));
-//            writeStyle(s, sldFile);
+            // Style s = CSS2SLD.convert(new StringReader(css));
+            // writeStyle(s, sldFile);
             throw new IllegalStateException("Could not locate sample sld file " + sldFile.getPath());
-        }
-        Style expected;
-        try (FileInputStream fis = new FileInputStream(sldFile)) {
-            SLDParser parser = new SLDParser(STYLE_FACTORY, fis);
-            StyledLayerDescriptor parsedSLD = parser.parseSLD();
-            NamedLayer layer = (NamedLayer) parsedSLD.getStyledLayers()[0];
-            expected = layer.getStyles()[0];
         }
 
         Style actual = cssToSld(css);
@@ -168,6 +164,7 @@ public class TranslationIntegrationTest extends CssBaseTest {
         assertNoErrors(result);
         Stylesheet ss = result.parseTreeRoot.getValue();
         CssTranslator translator = new CssTranslator();
+        translator.setExclusiveRulesEnabled(exclusiveRulesEnabled);
         return translator.translate(ss);
     }
 

@@ -44,16 +44,10 @@
         </sld:Rule>
         <sld:Rule>
           <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>waterway</ogc:PropertyName>
-                <ogc:Literal>riverbank</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>natural</ogc:PropertyName>
-                <ogc:Literal>water</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>natural</ogc:PropertyName>
+              <ogc:Literal>water</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PolygonSymbolizer>
             <sld:Fill>
@@ -63,16 +57,10 @@
         </sld:Rule>
         <sld:Rule>
           <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>waterway</ogc:PropertyName>
-                <ogc:Literal>riverbank</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>natural</ogc:PropertyName>
-                <ogc:Literal>wetland</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>natural</ogc:PropertyName>
+              <ogc:Literal>wetland</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PolygonSymbolizer>
             <sld:Fill>
@@ -82,20 +70,10 @@
         </sld:Rule>
         <sld:Rule>
           <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>waterway</ogc:PropertyName>
-                <ogc:Literal>riverbank</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>natural</ogc:PropertyName>
-                <ogc:Literal>water</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>natural</ogc:PropertyName>
-                <ogc:Literal>wetland</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-            </ogc:And>
+            <ogc:PropertyIsEqualTo>
+              <ogc:PropertyName>waterway</ogc:PropertyName>
+              <ogc:Literal>riverbank</ogc:Literal>
+            </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:PolygonSymbolizer>
             <sld:Fill>
@@ -108,3 +86,4 @@
     </sld:UserStyle>
   </sld:NamedLayer>
 </sld:StyledLayerDescriptor>
+

@@ -39,6 +39,7 @@ import org.apache.commons.io.FileUtils;
 import org.geotools.factory.CommonFactoryFinder;
 import org.geotools.feature.NameImpl;
 import org.geotools.styling.ColorMap;
+import org.geotools.styling.FeatureTypeStyle;
 import org.geotools.styling.NamedLayer;
 import org.geotools.styling.Rule;
 import org.geotools.styling.SLDTransformer;
@@ -102,6 +103,9 @@ public class CssTranslator {
 
     static final int MAX_OUTPUT_RULES = Integer.valueOf(System.getProperty(
             "org.geotools.css.maxOutputRules", "10000"));
+
+    static final boolean EXCLUSIVE_RULES_ENABLED = Boolean.valueOf(System.getProperty(
+            "org.geotools.css.exclusiveRules", "false"));
 
     static final FilterFactory2 FF = CommonFactoryFinder.getFilterFactory2();
 
@@ -168,13 +172,38 @@ public class CssTranslator {
     };
 
     /**
-     * Translates a CSS stylesheet into an equivalent GeoTools {@link Style} object
-     * 
-     * @param stylesheet
-     * @return
+     * Limits how many output rules we are going to generate
      */
-    public Style translate(Stylesheet stylesheet) {
-        return translate(stylesheet, MAX_OUTPUT_RULES);
+    int maxCombinations = MAX_OUTPUT_RULES;
+
+    /**
+     * Enables the computation of a set of fully exclusive rules
+     */
+    boolean exclusiveRulesEnabled = EXCLUSIVE_RULES_ENABLED;
+
+    public int getMaxCombinations() {
+        return maxCombinations;
+    }
+
+    /**
+     * Maximum number of rule combinations before bailing out of the power set generation
+     * @param maxCombinations
+     */
+    public void setMaxCombinations(int maxCombinations) {
+        this.maxCombinations = maxCombinations;
+    }
+
+    public boolean isExclusiveRulesEnabled() {
+        return exclusiveRulesEnabled;
+    }
+
+    /**
+     * If enabled, makes the translator generate fully exclusive rules (comes at an extra cost,
+     * might generate, or not, a smaller SLD)
+     * @param exclusiveRulesEnabled
+     */
+    public void setExclusiveRulesEnabled(boolean exclusiveRulesEnabled) {
+        this.exclusiveRulesEnabled = exclusiveRulesEnabled;
     }
 
     /**
@@ -183,7 +212,7 @@ public class CssTranslator {
      * @param stylesheet
      * @return
      */
-    public Style translate(Stylesheet stylesheet, int maxCombinations) {
+    public Style translate(Stylesheet stylesheet) {
         List<CssRule> allRules = stylesheet.getRules();
 
         if (LOGGER.isLoggable(Level.FINE)) {
@@ -210,6 +239,8 @@ public class CssTranslator {
             for (Map.Entry<String, List<CssRule>> entry : typenameRules.entrySet()) {
                 // create the feature type style for this typename
                 FeatureTypeStyleBuilder ftsBuilder = styleBuilder.featureTypeStyle();
+                ftsBuilder.option(FeatureTypeStyle.KEY_EVALUATION_MODE,
+                        FeatureTypeStyle.VALUE_EVALUATION_MODE_FIRST);
                 String featureTypeName = entry.getKey();
                 List<CssRule> localRules = entry.getValue();
                 if (featureTypeName != null) {
@@ -265,6 +296,7 @@ public class CssTranslator {
                 // create a SLD rule for each css one, making them exclusive, that is,
                 // remove from each rule the union of the zoom/data domain matched by previous rules
                 DomainCoverage coverage = new DomainCoverage(targetFeatureType, cachedSimplifier);
+                coverage.exclusiveRulesEnabled = exclusiveRulesEnabled;
                 for (int i = 0; i < combinedRules.size(); i++) {
                     // skip eventual combinations that are not sporting any
                     // root pseudo class
@@ -1413,5 +1445,6 @@ public class CssTranslator {
 
         System.out.println("Translation performed in " + (end - start) / 1000d + " seconds");
     }
+
 
 }

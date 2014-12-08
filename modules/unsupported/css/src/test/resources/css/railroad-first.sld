@@ -26,12 +26,6 @@
           </sld:LineSymbolizer>
         </sld:Rule>
         <sld:Rule>
-          <ogc:Filter>
-            <ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyName>type</ogc:PropertyName>
-              <ogc:Literal>express</ogc:Literal>
-            </ogc:PropertyIsNotEqualTo>
-          </ogc:Filter>
           <sld:LineSymbolizer>
             <sld:Stroke>
               <sld:GraphicStroke>
@@ -52,4 +46,3 @@
     </sld:UserStyle>
   </sld:NamedLayer>
 </sld:StyledLayerDescriptor>
-

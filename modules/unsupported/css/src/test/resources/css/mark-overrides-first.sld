@@ -23,12 +23,6 @@
           </sld:PointSymbolizer>
         </sld:Rule>
         <sld:Rule>
-          <ogc:Filter>
-            <ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyName>class</ogc:PropertyName>
-              <ogc:Literal>special</ogc:Literal>
-            </ogc:PropertyIsNotEqualTo>
-          </ogc:Filter>
           <sld:PointSymbolizer>
             <sld:Graphic>
               <sld:Mark>
@@ -45,3 +39,4 @@
     </sld:UserStyle>
   </sld:NamedLayer>
 </sld:StyledLayerDescriptor>
+

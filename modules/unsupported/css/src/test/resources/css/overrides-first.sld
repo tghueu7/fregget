@@ -11,31 +11,39 @@
               <ogc:Literal>special</ogc:Literal>
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
+          <sld:PolygonSymbolizer>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#0000ff</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#0000ff</sld:CssParameter>
+            </sld:Stroke>
+          </sld:PolygonSymbolizer>
           <sld:PointSymbolizer>
             <sld:Graphic>
               <sld:Mark>
-                <sld:WellKnownName>x</sld:WellKnownName>
-                <sld:Fill>
-                  <sld:CssParameter name="fill">#0000ff</sld:CssParameter>
-                </sld:Fill>
+                <sld:WellKnownName>triangle</sld:WellKnownName>
+                <sld:Fill/>
+                <sld:Stroke/>
               </sld:Mark>
             </sld:Graphic>
           </sld:PointSymbolizer>
         </sld:Rule>
         <sld:Rule>
-          <ogc:Filter>
-            <ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyName>class</ogc:PropertyName>
-              <ogc:Literal>special</ogc:Literal>
-            </ogc:PropertyIsNotEqualTo>
-          </ogc:Filter>
+          <sld:PolygonSymbolizer>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#ff0000</sld:CssParameter>
+            </sld:Fill>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#ff0000</sld:CssParameter>
+            </sld:Stroke>
+          </sld:PolygonSymbolizer>
           <sld:PointSymbolizer>
             <sld:Graphic>
               <sld:Mark>
                 <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Fill>
-                  <sld:CssParameter name="fill">#ff0000</sld:CssParameter>
-                </sld:Fill>
+                <sld:Fill/>
+                <sld:Stroke/>
               </sld:Mark>
             </sld:Graphic>
           </sld:PointSymbolizer>

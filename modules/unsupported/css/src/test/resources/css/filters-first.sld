@@ -58,16 +58,10 @@
         </sld:Rule>
         <sld:Rule>
           <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsGreaterThan>
-                <ogc:PropertyName>PROP</ogc:PropertyName>
-                <ogc:Literal>25</ogc:Literal>
-              </ogc:PropertyIsGreaterThan>
-              <ogc:PropertyIsLessThanOrEqualTo>
-                <ogc:PropertyName>PROP</ogc:PropertyName>
-                <ogc:Literal>30</ogc:Literal>
-              </ogc:PropertyIsLessThanOrEqualTo>
-            </ogc:And>
+            <ogc:PropertyIsGreaterThan>
+              <ogc:PropertyName>PROP</ogc:PropertyName>
+              <ogc:Literal>25</ogc:Literal>
+            </ogc:PropertyIsGreaterThan>
           </ogc:Filter>
           <sld:LineSymbolizer>
             <sld:Stroke>

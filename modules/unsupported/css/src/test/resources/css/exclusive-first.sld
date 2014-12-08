@@ -117,42 +117,6 @@
           </sld:PolygonSymbolizer>
         </sld:Rule>
         <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>COLOR_MAP</ogc:PropertyName>
-                <ogc:Literal>1</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>COLOR_MAP</ogc:PropertyName>
-                <ogc:Literal>2</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>COLOR_MAP</ogc:PropertyName>
-                <ogc:Literal>3</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>COLOR_MAP</ogc:PropertyName>
-                <ogc:Literal>4</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>COLOR_MAP</ogc:PropertyName>
-                <ogc:Literal>5</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>COLOR_MAP</ogc:PropertyName>
-                <ogc:Literal>6</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>COLOR_MAP</ogc:PropertyName>
-                <ogc:Literal>7</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-              <ogc:PropertyIsNotEqualTo>
-                <ogc:PropertyName>COLOR_MAP</ogc:PropertyName>
-                <ogc:Literal>8</ogc:Literal>
-              </ogc:PropertyIsNotEqualTo>
-            </ogc:And>
-          </ogc:Filter>
           <sld:PolygonSymbolizer>
             <sld:Fill/>
             <sld:Stroke/>
