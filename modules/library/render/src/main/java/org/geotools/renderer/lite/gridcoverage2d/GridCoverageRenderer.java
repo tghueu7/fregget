@@ -62,6 +62,7 @@ import org.geotools.referencing.CRS;
 import org.geotools.referencing.operation.builder.GridToEnvelopeMapper;
 import org.geotools.referencing.operation.matrix.XAffineTransform;
 import org.geotools.referencing.operation.transform.AffineTransform2D;
+import org.geotools.renderedimage.viewer.RenderedImageBrowser;
 import org.geotools.renderer.crs.ProjectionHandler;
 import org.geotools.renderer.crs.ProjectionHandlerFinder;
 import org.geotools.renderer.crs.WrappingProjectionHandler;
@@ -433,12 +434,18 @@ public final class GridCoverageRenderer {
         // /////////////////////////////////////////////////////////////////////
         final GridCoverage2D afterReprojection=reproject(preReprojection, doReprojection,bkgValues);
         
+        // symbolizer
+        return symbolize(afterReprojection, symbolizer, bkgValues);
+    }
+
+    private GridCoverage2D symbolize(final GridCoverage2D coverage,
+            final RasterSymbolizer symbolizer, final double[] bkgValues) {
         // ///////////////////////////////////////////////////////////////////
         //
         // FINAL AFFINE
         //
         // ///////////////////////////////////////////////////////////////////
-        final GridCoverage2D preSymbolizer= affine(afterReprojection,bkgValues);
+        final GridCoverage2D preSymbolizer = affine(coverage, bkgValues);
         if (preSymbolizer == null) {
             return null;
         }
@@ -846,15 +853,23 @@ public final class GridCoverageRenderer {
         }
 
         // render it
-        GridCoverage2D result = renderCoverage(mosaicked, symbolizer,
+        GridCoverage2D symbolized = symbolize(mosaicked, symbolizer,
                 GridCoverageRendererUtilities.colorToArray(background));
 
-        if (result == null) {
+        if (symbolized == null) {
             return null;
-        } else {
-            // RenderedImageBrowser.showChain(result.getRenderedImage());
-            return result.getRenderedImage();
         }
+
+        // at this point, we might have a coverage that's still slightly larger
+        // than the one requested, crop as needed
+        GridCoverage2D cropped = crop(symbolized, destinationEnvelope, false);
+        if (cropped == null) {
+            return null;
+        }
+
+        RenderedImageBrowser.showChain(cropped.getRenderedImage());
+        return cropped.getRenderedImage();
+
     }
 
     private GridCoverage2D displaceCoverage(GridCoverage2D coverage, double tx, double ty) {
