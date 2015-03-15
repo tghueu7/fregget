@@ -393,7 +393,7 @@ public class Crop extends Operation2D {
 		//
 		// //
 		final double tolerance = XAffineTransform.getScale(sourceCornerGridToWorld);
-		if (cropRoi != null || !intersectionEnvelope.equals(sourceEnvelope, tolerance / 2.0, false)) {
+		if (cropRoi != null || !intersectionEnvelope.equals(sourceEnvelope, tolerance / 3.0, false)) {
             cropEnvelope = intersectionEnvelope.clone();
 			return buildResult(
 					cropEnvelope, 
@@ -514,7 +514,12 @@ public class Crop extends Operation2D {
 			//
 			// //
             final Rectangle2D finalRasterAreaDouble = XAffineTransform.transform(sourceWorldToGridTransform, cropEnvelope.toRectangle2D(),null);
-            final Rectangle finalRasterArea = finalRasterAreaDouble.getBounds();
+            int minx = (int) Math.ceil(finalRasterAreaDouble.getMinX());
+            int miny = (int) Math.ceil(finalRasterAreaDouble.getMinY());
+            int maxx = (int) Math.floor(finalRasterAreaDouble.getMaxX());
+            int maxy = (int) Math.floor(finalRasterAreaDouble.getMaxY());
+
+            final Rectangle finalRasterArea = new Rectangle(minx, miny, maxx - minx, maxy - miny);
 
             // intersection with the original range in order to not try to crop outside the image bounds
             Rectangle.intersect(finalRasterArea, sourceGridRange, finalRasterArea);

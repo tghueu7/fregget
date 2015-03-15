@@ -2,7 +2,7 @@
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
  * 
- *    (C) 2002-2008, Open Source Geospatial Foundation (OSGeo)
+ *    (C) 2002-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -52,6 +52,8 @@ public class ProjectionHandlerFinder {
         factories.add(new PolarStereographicHandlerFactory());
         factories.add(new LambertAzimuthalEqualAreaHandlerFactory());
         factories.add(new ConiclHandlerFactory());
+        factories.add(new WorldVanDerGrintenHandlerFactory());
+        
         
         String wrapLimit = System.getProperty(WRAP_LIMIT_KEY);
         int limit = 10;
