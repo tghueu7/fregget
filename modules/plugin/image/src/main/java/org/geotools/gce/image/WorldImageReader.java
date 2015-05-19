@@ -29,7 +29,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -797,4 +799,22 @@ public final class WorldImageReader extends AbstractGridCoverage2DReader
 	public String getExtension() {
 	    return extension;
 	}
+
+    @Override
+    protected List<File> getFiles() {
+        File file = getSourceAsFile();
+        if (file == null) {
+            return null;
+        }
+
+        List<File> files = new ArrayList<>();
+        files.add(file);
+        List<String> extensions = new ArrayList<>();
+        extensions.add(".prj");
+        Set<String> worldExtensions = WorldImageFormat.getWorldExtension(getExtension());
+        extensions.addAll(worldExtensions);
+        String[] siblingExtensions = worldExtensions.toArray(new String[worldExtensions.size()]);
+        addAllSiblings(file, files, siblingExtensions);
+        return files;
+    }
 }

@@ -54,6 +54,8 @@ import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.GridCoverageFactory;
 import org.geotools.coverage.grid.GridEnvelope2D;
 import org.geotools.data.DataSourceException;
+import org.geotools.data.DataUtilities;
+import org.geotools.data.DefaultFileServiceInfo;
 import org.geotools.data.DefaultServiceInfo;
 import org.geotools.data.ServiceInfo;
 import org.geotools.factory.GeoTools;
@@ -1020,7 +1022,21 @@ public abstract class AbstractGridCoverage2DReader implements GridCoverage2DRead
      * @return ServiceInfo describing getSource().
      */
     public ServiceInfo getInfo() {
-        DefaultServiceInfo info = new DefaultServiceInfo();
+        DefaultServiceInfo info;
+        try {
+            List<File> files = getFiles();
+            if (files != null && !files.isEmpty()) {
+                DefaultFileServiceInfo fileInfo = new DefaultFileServiceInfo();
+                fileInfo.setFiles(files);
+                fileInfo.setSupportFiles(getSupportFiles());
+                info = fileInfo;
+            } else {
+                info = new DefaultServiceInfo();
+            }
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Failed to locate source file list", e);
+            info = new DefaultServiceInfo();
+        }
         info.setDescription(source == null ? null : String.valueOf(source));
         if (source instanceof URL) {
             URL url = (URL) source;
@@ -1040,20 +1056,51 @@ public abstract class AbstractGridCoverage2DReader implements GridCoverage2DRead
         return info;
     }
 
-    // /**
-    // * Information about the named gridcoveage.
-    // *
-    // * @param subname Name indicing grid coverage to describe
-    // * @return ResourceInfo describing grid coverage indicated
-    // */
-    // public ResourceInfo getInfo( String subname ){
-    // DefaultResourceInfo info = new DefaultResourceInfo();
-    // info.setName( subname );
-    // info.setBounds( new ReferencedEnvelope( this.getOriginalEnvelope()));
-    // info.setCRS( this.getCrs() );
-    // info.setTitle( subname );
-    // return info;
-    // }
+    /**
+     * Returns a list of files making up the source data for this reader (as a whole). The default
+     * implementation returns the source, if it can be made into a File object, or null otherwise.
+     * 
+     * @return
+     * @throws IOException
+     */
+    protected List<File> getFiles() throws IOException {
+        File file = getSourceAsFile();
+
+        if (file == null) {
+            return null;
+        } else {
+            return Collections.singletonList(file);
+        }
+    }
+
+    /**
+     * Returns the source as a File, if it can be converted to one, and it exists
+     * 
+     * @return
+     */
+    protected File getSourceAsFile() {
+        File file = null;
+        if (source instanceof File) {
+            file = (File) source;
+        } else if (source instanceof URL) {
+            File sf = DataUtilities.urlToFile((URL) source);
+            if (sf.exists()) {
+                file = sf;
+            }
+        }
+        return file;
+    }
+
+    /**
+     * Returns a list of support files for this reader (as a whole). The default implementation
+     * returns null, subclasses may want to override it along {@link #getFiles()} in case there are
+     * index/cache files they want to advertise
+     * 
+     * @return
+     */
+    protected List<File> getSupportFiles() {
+        return null;
+    }
 
     /**
      * Forcing disposal of this {@link AbstractGridCoverage2DReader} which may keep an {@link ImageInputStream} open.
@@ -1280,6 +1327,73 @@ public abstract class AbstractGridCoverage2DReader implements GridCoverage2DRead
         }
     
         return tempRaster2Model;
+    }
+
+    /**
+     * Retrieves the sibling of the specified file, if available, or null otherwise
+     * 
+     * @param file
+     * @param extension
+     * @return
+     */
+    protected static File getSibling(final File file, String extension) {
+        String parentPath = file.getParent();
+        String filename = file.getName();
+        final int i = filename.lastIndexOf('.');
+        filename = (i == -1) ? filename : filename.substring(0, i);
+
+        // getting name and extension
+        final String base = (parentPath != null) ? new StringBuilder(parentPath)
+                .append(File.separator).append(filename).toString() : filename;
+
+        // We can now construct the baseURL from this string.
+        File file2Parse = new File(new StringBuilder(base).append(extension).toString());
+        if (file2Parse.exists()) {
+            return file2Parse;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Adds all the siblings that could be found to exist to the given file list
+     * 
+     * @param file
+     * @param extension
+     * @return
+     */
+    protected void addAllSiblings(final File file, List<File> files, String... extensions) {
+        String parentPath = file.getParent();
+        String filename = file.getName();
+        final int i = filename.lastIndexOf('.');
+        filename = (i == -1) ? filename : filename.substring(0, i);
+
+        // getting name and extension
+        final String base = (parentPath != null) ? new StringBuilder(parentPath)
+                .append(File.separator).append(filename).toString() : filename;
+
+        // We can now construct the baseURL from this string.
+        for (String extension : extensions) {
+            File file2Parse = new File(new StringBuilder(base).append(extension)
+                    .toString());
+            if (file2Parse.exists()) {
+                files.add(file2Parse);
+            }
+        }
+    }
+
+    /**
+     * Adds the specified siblings, if not null, and existing
+     * 
+     * @param files
+     * @param siblings
+     */
+    protected void addSiblings(List<File> files, File... siblings) {
+        for (File sibling : siblings) {
+            if (sibling != null && sibling.exists()) {
+                files.add(sibling);
+            }
+        }
     }
 
 }

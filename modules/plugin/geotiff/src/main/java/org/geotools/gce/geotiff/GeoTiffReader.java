@@ -34,6 +34,7 @@
  */
 package org.geotools.gce.geotiff;
 
+import it.geosolutions.imageio.maskband.DatasetLayout;
 import it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReaderSpi;
 import it.geosolutions.imageioimpl.plugins.tiff.TiffDatasetLayoutImpl;
 
@@ -51,9 +52,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -964,19 +967,7 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
     static MapInfoFileReader parseMapInfoFile(Object source) throws IOException {
         if (source instanceof File) {
             final File sourceFile = ((File) source);
-            String parentPath = sourceFile.getParent();
-            String filename = sourceFile.getName();
-            final int i = filename.lastIndexOf('.');
-            filename = (i == -1) ? filename : filename.substring(0, i);
-            
-            // getting name and extension
-            final String base = (parentPath != null) ? new StringBuilder(
-                    parentPath).append(File.separator).append(filename)
-                    .toString() : filename;
-
-            // We can now construct the baseURL from this string.
-            File file2Parse = new File(new StringBuilder(base).append(".tab")
-                    .toString());
+            File file2Parse = getSibling(sourceFile, ".tab");
 
             if (file2Parse.exists()) {
                 final MapInfoFileReader reader = new MapInfoFileReader(file2Parse);
@@ -985,6 +976,8 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
         }
         return null;
     }
+
+
 
 	/**
 	 * Number of coverages for this reader is 1
@@ -1000,5 +993,26 @@ public class GeoTiffReader extends AbstractGridCoverage2DReader implements GridC
     public GroundControlPoints getGroundControlPoints() {
         return gcps;
     }
+
+    @Override
+    protected List<File> getFiles() {
+        File file = getSourceAsFile();
+        if (file == null) {
+            return null;
+        }
+
+        List<File> files = new ArrayList<>();
+        files.add(file);
+        // add all common sidecars
+        addAllSiblings(file, files, ".prj", ".tab", ".wld", ".tfw");
+        if (hasMaskOvrProvider) {
+            DatasetLayout layout = maskOvrProvider.getLayout();
+            addSiblings(files, layout.getExternalMaskOverviews(), layout.getExternalOverviews(),
+                    layout.getExternalMasks());
+        }
+        return files;
+    }
+
+
 
 }

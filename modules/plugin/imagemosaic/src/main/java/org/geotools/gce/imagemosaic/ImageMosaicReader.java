@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -56,6 +57,9 @@ import org.geotools.coverage.grid.io.OverviewPolicy;
 import org.geotools.coverage.grid.io.StructuredGridCoverage2DReader;
 import org.geotools.data.DataSourceException;
 import org.geotools.data.DataUtilities;
+import org.geotools.data.Query;
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.data.simple.SimpleFeatureIterator;
 import org.geotools.factory.Hints;
 import org.geotools.gce.imagemosaic.ImageMosaicEventHandlers.ExceptionEvent;
 import org.geotools.gce.imagemosaic.ImageMosaicEventHandlers.FileProcessingEvent;
@@ -74,6 +78,7 @@ import org.geotools.referencing.operation.transform.AffineTransform2D;
 import org.geotools.util.Utilities;
 import org.opengis.coverage.grid.Format;
 import org.opengis.coverage.grid.GridEnvelope;
+import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.opengis.geometry.BoundingBox;
 import org.opengis.metadata.Identifier;
@@ -1436,5 +1441,35 @@ public class ImageMosaicReader extends AbstractGridCoverage2DReader implements S
                 }
             }
         }   
+    }
+    
+    @Override
+    protected List<File> getFiles() throws IOException {
+        // locate all granules
+        String[] typeNames = granuleCatalog.getTypeNames();
+        String parentLocation = parentDirectory.getAbsolutePath();
+        LinkedHashSet<File> files = new LinkedHashSet<>();
+        // normally the different type names are actually sharing the same files, but we cannot be
+        // sure, a manually setup mosaic could indeed have multiple types with different files in
+        // them...
+        for (String typeName : typeNames) {
+            SimpleFeatureCollection fc = granuleCatalog.getGranules(new Query(typeName));
+            try (SimpleFeatureIterator fi = fc.features()) {
+                while (fi.hasNext()) {
+                    SimpleFeature next = fi.next();
+                    // resolve the location
+                    String granuleLocation = (String) next.getAttribute(this.locationAttributeName);
+                    URL resolved = pathType.resolvePath(parentLocation, granuleLocation);
+                    if (resolved != null) {
+                        File file = DataUtilities.urlToFile(resolved);
+                        if (file != null && file.exists()) {
+                            files.add(file);
+                        }
+                    }
+                }
+            }
+        }
+
+        return new ArrayList<File>(files);
     }
 }
