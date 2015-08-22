@@ -111,13 +111,11 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
     
     boolean indexCreationEnabled = true;
 
-    boolean recnoIndexed = true;
-
     boolean fidIndexed = true;
 
     IndexManager indexManager;
 
-    RecnoIndexManager recnoIndexManager;
+    OdbcRecnoIndexManager recnoIndexManager;
     
     ShapefileSetManager shpManager;
 
@@ -129,7 +127,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
         }
         shpManager = new ShapefileSetManager(shpFiles, this);
         indexManager = new IndexManager(shpFiles, this);
-        recnoIndexManager = new RecnoIndexManager(shpFiles, this);
+        recnoIndexManager = new OdbcRecnoIndexManager(shpFiles, this);
     }
 
     @Override
@@ -410,6 +408,13 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
             shpFiles.dispose();
             shpFiles = null;
         }
+        if(recnoIndexManager != null) {
+            try {
+                recnoIndexManager.close();
+            } catch (IOException e) {
+                LOGGER.log(Level.WARNING, "Failed to cleanly close the ODBC index manager", e);
+            }
+        }
     }
 
     @Override
@@ -447,7 +452,7 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
     public String toString() {
         return "ShapefileDataStore [file=" + shpFiles.get(SHP) + ", charset=" + charset + ", timeZone=" + timeZone
                 + ", memoryMapped=" + memoryMapped + ", bufferCachingEnabled="
-                + bufferCachingEnabled + ", indexed=" + indexed + ", fidIndexed=" + fidIndexed + ", recnoIndexed=" + recnoIndexed
+                + bufferCachingEnabled + ", indexed=" + indexed + ", fidIndexed=" + fidIndexed + ", recnoIndexed=" + (recnoIndexManager != null)
                 + "]";
     }
 
@@ -487,14 +492,16 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
     }
     
     public boolean isRecnoIndexed() {
-        return recnoIndexed;
+        return recnoIndexManager != null;
     }
 
     /**
      * If true (default) the store uses an available JDBC provider to execute the Dbase filters
      */
     public void setRecnoIndexed(boolean recnoIndexed) {
-        this.recnoIndexed = recnoIndexed;
+        if(recnoIndexed) {
+            this.recnoIndexManager = new OdbcRecnoIndexManager(recnoIndexManager.shpFiles, this);
+        }
     }
 
     @Override
@@ -528,16 +535,4 @@ public class ShapefileDataStore extends ContentDataStore implements FileDataStor
         removeEntry(entry.getName());
     }
 
-    /**
-     * If true (default) the store uses an available JDBC provider to execute the Dbase filters
-     */
-    public void setRecnoIndexed(boolean recnoIndexed, boolean recnoPooledIndexed) {
-        if (recnoPooledIndexed) {
-            recnoIndexManager = new RecnoPooledIndexManager(recnoIndexManager.shpFiles, this);
-        }
-        else {
-            recnoIndexManager = new RecnoIndexManager(recnoIndexManager.shpFiles, this);
-        }
-        setRecnoIndexed(recnoIndexed);
-    }
 }

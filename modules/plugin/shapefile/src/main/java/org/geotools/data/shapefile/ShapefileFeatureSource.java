@@ -356,12 +356,14 @@ class ShapefileFeatureSource extends ContentFeatureSource {
         }
         
         // uses the optional Recno field to quickly lookup the shp offset and the record number.
-        if (!usingBoundingBox && !usingFidIndex && getDataStore().isRecnoIndexed() && getDataStore().recnoIndexManager.hasRecnoIndex()) {
+        OdbcRecnoIndexManager recnoIndexManager = getDataStore().recnoIndexManager;
+        if (!usingBoundingBox && !usingFidIndex && getDataStore().isRecnoIndexed() 
+                && OdbcRecnoIndexManager.isAvailable() && recnoIndexManager.supports(filter)) {
             try {
-                goodRecs = getDataStore().recnoIndexManager.queryRecnoIndex(filter, q.getMaxFeatures(), goodRecs);
+                goodRecs = recnoIndexManager.queryRecnoIndex(filter, q.getMaxFeatures());
                 
                 // do we have anything to read at all? If not don't bother opening all the files
-                if (goodRecs!=null && !goodRecs.hasNext()) {                    
+                if (goodRecs !=null && !goodRecs.hasNext()) {                    
                     LOGGER.log(Level.FINE, "Empty results for " + resultSchema.getName().getLocalPart() + ", skipping read");
                     goodRecs.close();
                     return new EmptyFeatureReader<SimpleFeatureType, SimpleFeature>(resultSchema);

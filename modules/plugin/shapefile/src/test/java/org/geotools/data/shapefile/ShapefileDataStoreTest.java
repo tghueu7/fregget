@@ -133,7 +133,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         assertNotNull(query);
 
         URL url = TestData.url(resource);
-        store = new ShapefileDataStore(url);
+        store = getShapefileDataStore(url);
         SimpleFeatureSource fs = store.getFeatureSource(store.getTypeNames()[0]);
         return fs.getFeatures(query);
     }
@@ -141,7 +141,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     protected SimpleFeatureCollection loadLocalFeaturesM2() throws IOException {
         String target = "jar:file:/C:/Documents and Settings/jgarnett/.m2/repository/org/geotools/gt2-sample-data/2.4-SNAPSHOT/gt2-sample-data-2.4-SNAPSHOT.jar!/org/geotools/test-data/shapes/statepop.shp";
         URL url = new URL(target);
-        ShapefileDataStore s = new ShapefileDataStore(url);
+        ShapefileDataStore s = getShapefileDataStore(url);
         SimpleFeatureSource fs = s.getFeatureSource(s.getTypeNames()[0]);
         return fs.getFeatures();
     }
@@ -151,7 +151,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         if (q == null)
             q = new Query();
         URL url = TestData.url(resource);
-        store = new ShapefileDataStore(url);
+        store = getShapefileDataStore(url);
         store.setCharset(charset);
         SimpleFeatureSource fs = store.getFeatureSource(store.getTypeNames()[0]);
         return fs.getFeatures(q);
@@ -294,7 +294,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     @Test
     public void testSchema() throws Exception {
         URL url = TestData.url(STATE_POP);
-        ShapefileDataStore shapeDataStore = new ShapefileDataStore(url);
+        ShapefileDataStore shapeDataStore = getShapefileDataStore(url);
         String typeName = shapeDataStore.getTypeNames()[0];
         SimpleFeatureType schema = shapeDataStore.getSchema(typeName);
         List<AttributeDescriptor> attributes = schema.getAttributeDescriptors();
@@ -307,7 +307,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         URL u = TestData.url(TestCaseSupport.class, "folder with spaces/pointtest.shp");
         File f = DataUtilities.urlToFile(u);
         assertTrue(f.exists());
-        ShapefileDataStore s = new ShapefileDataStore(u);
+        ShapefileDataStore s = getShapefileDataStore(u);
         loadFeatures(s);
         s.dispose();
     }
@@ -318,7 +318,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     @Test
     public void testEnvelope() throws Exception {
         SimpleFeatureCollection features = loadFeatures(STATE_POP, Query.ALL);
-        ShapefileDataStore s = new ShapefileDataStore(TestData.url(STATE_POP));
+        ShapefileDataStore s = getShapefileDataStore(TestData.url(STATE_POP));
         String typeName = s.getTypeNames()[0];
         SimpleFeatureCollection all = s.getFeatureSource(typeName).getFeatures();
 
@@ -339,7 +339,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         }
         file.deleteOnExit();
 
-        ShapefileDataStore ds = new ShapefileDataStore(url);
+        ShapefileDataStore ds = getShapefileDataStore(url);
         SimpleFeatureCollection features = ds.getFeatureSource().getFeatures();
         SimpleFeatureIterator indexIter = features.features();
 
@@ -361,7 +361,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         }
         indexIter.close();
 
-        ShapefileDataStore ds2 = new ShapefileDataStore(url);
+        ShapefileDataStore ds2 = getShapefileDataStore(url);
         ds2.setIndexed(false);
 
         // reduce the bounds, thus making the store use the spatial index
@@ -388,7 +388,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         assertTrue(shpFile.exists());
         URL url = shpFile.toURI().toURL();
 
-        ShapefileDataStore ds = new ShapefileDataStore(url);
+        ShapefileDataStore ds = getShapefileDataStore(url);
         ds.removeSchema(ds.getSchema().getTypeName());
         ds.dispose();
 
@@ -404,7 +404,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     public void testSelectionQuery() throws Exception {
         File shpFile = copyShapefiles(STATE_POP);
         URL url = shpFile.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(url);
+        ShapefileDataStore ds = getShapefileDataStore(url);
         ds.setIndexed(false);
         SimpleFeatureSource featureSource = ds.getFeatureSource();
         SimpleFeatureType schema = featureSource.getSchema();
@@ -442,7 +442,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     public void testQueryBboxNonGeomAttributes() throws Exception {
         File shpFile = copyShapefiles(STATE_POP);
         URL url = shpFile.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(url);
+        ShapefileDataStore ds = getShapefileDataStore(url);
         SimpleFeatureSource fs = ds.getFeatureSource();
         
         // build a query that extracts no geom but uses a bbox filter
@@ -468,7 +468,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     public void testQueryNonGeomAttributes() throws Exception {
         File shpFile = copyShapefiles(STATE_POP);
         URL url = shpFile.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(url);
+        ShapefileDataStore ds = getShapefileDataStore(url);
         SimpleFeatureSource fs = ds.getFeatureSource();
                 
         // GEOS-6842/GEOT-4991: 
@@ -488,7 +488,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     public void testFidFilter() throws Exception {
         File shpFile = copyShapefiles(STATE_POP);
         URL url = shpFile.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(url);
+        ShapefileDataStore ds = getShapefileDataStore(url);
         SimpleFeatureSource featureSource = ds.getFeatureSource();
         SimpleFeatureCollection features = featureSource.getFeatures();
         SimpleFeatureIterator indexIter = features.features();
@@ -623,7 +623,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     public void testCreateSchemaWithEmptyCRS() throws Exception {
         File file = new File("test.shp");
         URL toURL = file.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(toURL);
+        ShapefileDataStore ds = getShapefileDataStore(toURL);
         ds.createSchema(DataUtilities.createType("test", "geom:MultiPolygon"));
 
         assertEquals("test", ds.getSchema().getTypeName());
@@ -649,7 +649,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     public void testCreateSchemaWithCRS() throws Exception {
         File file = new File("test.shp");
         URL toURL = file.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(toURL);
+        ShapefileDataStore ds = getShapefileDataStore(toURL);
         SimpleFeatureType featureType = DataUtilities.createType("test", "geom:MultiPolygon:srid=32615");
         CoordinateReferenceSystem crs = featureType.getGeometryDescriptor().getCoordinateReferenceSystem(); 
         assertNotNull( crs );
@@ -683,12 +683,12 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
             file.deleteOnExit();
         }
     }
-    
+
     @Test
     public void testCreateSchemaWithPolarStereographics() throws Exception {
         File file = new File("test.shp");
         URL toURL = file.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(toURL);
+        ShapefileDataStore ds = getShapefileDataStore(toURL);
         SimpleFeatureType featureType = DataUtilities.createType("test", "geom:MultiPolygon:srid=3031");
         CoordinateReferenceSystem crs = featureType.getGeometryDescriptor().getCoordinateReferenceSystem(); 
         assertNotNull( crs );
@@ -728,7 +728,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         File file = new File("test.shp");
         URL toURL = file.toURI().toURL();
 
-        ShapefileDataStore ds = new ShapefileDataStore(toURL);
+        ShapefileDataStore ds = getShapefileDataStore(toURL);
         ds.createSchema(DataUtilities.createType("test", "geom:MultiPolygon"));
         FeatureType before = ds.getSchema();
 
@@ -755,8 +755,26 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         if (file.exists())
             file.deleteOnExit();
     }
+    
+    /**
+     * Builds a datastore out of a target URL for the file. Allows subclasses to override to 
+     * test different datastore parameter configurations
+     * 
+     * @param toURL
+     * @return
+     */
+    protected ShapefileDataStore getShapefileDataStore(URL toURL) {
+        ShapefileDataStore ds = new ShapefileDataStore(toURL);
+        return ds;
+    }
 
-    private ShapefileDataStore createDataStore(File f) throws Exception {
+    /**
+     * Creates a new datastore with a set of known features inside of the shapefile
+     * @param f
+     * @return
+     * @throws Exception
+     */
+    protected ShapefileDataStore createDataStore(File f) throws Exception {
         SimpleFeatureCollection fc = createFeatureCollection();
         ShapefileDataStore sds = new ShapefileDataStore(f.toURI().toURL());
         writeFeatures(sds, fc);
@@ -911,8 +929,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
                 "a:Polygon,b:String");
 
         File tempFile = getTempFile();
-        ShapefileDataStore shapefileDataStore = new ShapefileDataStore(tempFile
-                .toURI().toURL());
+        ShapefileDataStore shapefileDataStore = getShapefileDataStore(tempFile.toURI().toURL());
         shapefileDataStore.createSchema(featureType);
 
         FeatureWriter<SimpleFeatureType, SimpleFeature> featureWriter = shapefileDataStore.getFeatureWriter(
@@ -969,7 +986,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         URL u = TestData.url(TestCaseSupport.class, "deleted/archsites.dbf");
         File shpFile = DataUtilities.urlToFile(u);
         
-        ShapefileDataStore store = new ShapefileDataStore(DataUtilities.fileToURL(shpFile));
+        ShapefileDataStore store = getShapefileDataStore(DataUtilities.fileToURL(shpFile));
         ContentFeatureSource fs = store.getFeatureSource();
         // this one reads the shp header, which still contains trace of all records
         assertEquals(25, fs.getCount(Query.ALL));
@@ -1052,7 +1069,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         SimpleFeatureCollection features = createFeatureCollection();
         File tmpFile = getTempFile();
         tmpFile.createNewFile();
-        ShapefileDataStore s = new ShapefileDataStore(tmpFile.toURI().toURL());
+        ShapefileDataStore s = getShapefileDataStore(tmpFile.toURI().toURL());
         writeFeatures(s, features);
         s.dispose();
     }
@@ -1078,7 +1095,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         // store features
         File tmpFile = getTempFile();
         tmpFile.createNewFile();
-        ShapefileDataStore s = new ShapefileDataStore(tmpFile.toURI().toURL());
+        ShapefileDataStore s = getShapefileDataStore(tmpFile.toURI().toURL());
         writeFeatures(s, features);
 
         // read them back
@@ -1119,7 +1136,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         File tmpFile = getTempFile();
         tmpFile.createNewFile();
         System.clearProperty("org.geotools.shapefile.reportFieldSizeErrors");
-        ShapefileDataStore s = new ShapefileDataStore(tmpFile.toURI().toURL());
+        ShapefileDataStore s = getShapefileDataStore(tmpFile.toURI().toURL());
         writeFeatures(s, features);
 
         // read them back
@@ -1159,7 +1176,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         File tmpFile = getTempFile();
         tmpFile.createNewFile();
         System.setProperty("org.geotools.shapefile.reportFieldSizeErrors",  "true");
-        ShapefileDataStore s = new ShapefileDataStore(tmpFile.toURI().toURL());
+        ShapefileDataStore s = getShapefileDataStore(tmpFile.toURI().toURL());
         writeFeatures(s, features);
 
         // read them back
@@ -1247,14 +1264,14 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         tmpFile.delete();
 
         // write features
-        ShapefileDataStore shapeDataStore = new ShapefileDataStore(tmpFile
+        ShapefileDataStore shapeDataStore = getShapefileDataStore(tmpFile
                 .toURI().toURL());
         shapeDataStore.createSchema(type);
         writeFeatures(shapeDataStore, features);
         shapeDataStore.dispose();
 
         // read features
-        shapeDataStore = new ShapefileDataStore(tmpFile.toURI().toURL());
+        shapeDataStore = getShapefileDataStore(tmpFile.toURI().toURL());
         SimpleFeatureCollection fc = loadFeatures(shapeDataStore);
         SimpleFeatureIterator fci = fc.features();
         // verify
@@ -1297,7 +1314,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
                                                         // seems to fail in the
                                                         // URL point into the
                                                         // JAR file.
-        ShapefileDataStore store = new ShapefileDataStore(TestData.url(TestCaseSupport.class, STREAM));
+        ShapefileDataStore store = getShapefileDataStore(TestData.url(TestCaseSupport.class, STREAM));
         int count = 0;
         FeatureReader<SimpleFeatureType, SimpleFeature> reader = store.getFeatureReader();
         try {
@@ -1381,7 +1398,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     @Test
     public void testGetReaderOptimizations() throws Exception {
         URL url = TestData.url(STATE_POP);
-        ShapefileDataStore s = new ShapefileDataStore(url);
+        ShapefileDataStore s = getShapefileDataStore(url);
 
         // attributes other than geometry can be ignored here
         Query query = new Query(s.getSchema().getTypeName(),
@@ -1447,7 +1464,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         // store features
         File tmpFile = getTempFile();
         tmpFile.createNewFile();
-        ShapefileDataStore s = new ShapefileDataStore(tmpFile.toURI().toURL());
+        ShapefileDataStore s = getShapefileDataStore(tmpFile.toURI().toURL());
         s.createSchema(type);
         
         // was failing in GEOT-2427
@@ -1466,7 +1483,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
                 
         URL toURL = file.toURI().toURL();
         
-        ShapefileDataStore ds = new ShapefileDataStore(toURL);
+        ShapefileDataStore ds = getShapefileDataStore(toURL);
         ds.setTimeZone(TimeZone.getTimeZone("UTC"));
         ds.createSchema(DataUtilities.createType("test",
                         "geom:Point,timestamp:java.util.Date,date:java.util.Date,timestamp2:java.util.Date,timestamp3:java.util.Date"));
@@ -1567,7 +1584,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         ShpFileType fix = ShpFileType.FIX;
         File fixFile = sibling(shpFile, fix.extension);
         fixFile.delete();
-        ShapefileDataStore ds = new ShapefileDataStore(shpFile.toURI().toURL());
+        ShapefileDataStore ds = getShapefileDataStore(shpFile.toURI().toURL());
         ds.indexManager.createFidIndex();
         
         assertFalse(ds.indexManager.isIndexStale(fix));
@@ -1686,7 +1703,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         File f = DataUtilities.urlToFile(u);
         assertTrue(f.exists());
 
-        store = new ShapefileDataStore(u);
+        store = getShapefileDataStore(u);
         SimpleFeatureSource fs = store.getFeatureSource(store.getTypeNames()[0]);
         SimpleFeatureCollection fc = fs.getFeatures();
         assertEquals(3, fc.size());
@@ -1722,7 +1739,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
         File qixFile = new File(shpFile.getParentFile(),  name.substring(0, name.length() -4) + ".qix");
         qixFile.delete();
         URL url = shpFile.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(url);
+        ShapefileDataStore ds = getShapefileDataStore(url);
         try {
             ds.setIndexed(false);
             ds.setIndexCreationEnabled(false);
@@ -1746,7 +1763,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     public void testFeatureStoreHints() throws Exception {
         File shpFile = copyShapefiles(STATE_POP);
         URL url = shpFile.toURI().toURL();
-        ShapefileDataStore ds = new ShapefileDataStore(url);
+        ShapefileDataStore ds = getShapefileDataStore(url);
         ShapefileFeatureStore store = (ShapefileFeatureStore) ds.getFeatureSource("statepop");
         assertEquals(store.getSupportedHints(), store.delegate.getSupportedHints());
     }
@@ -1754,7 +1771,7 @@ public class ShapefileDataStoreTest extends TestCaseSupport {
     @Test
     public void testReadDelete() throws Exception {
         File shpFile = copyShapefiles(STATE_POP);
-        ShapefileDataStore ds = new ShapefileDataStore(shpFile.toURI().toURL());
+        ShapefileDataStore ds = getShapefileDataStore(shpFile.toURI().toURL());
         try (FeatureReader<SimpleFeatureType, SimpleFeature> reader = ds.getFeatureReader(new Query(ds.getTypeNames()[0]), Transaction.AUTO_COMMIT)) {
             reader.getFeatureType();
             while(reader.hasNext()) {
