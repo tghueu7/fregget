@@ -2,7 +2,7 @@
  *    GeoTools - The Open Source Java GIS Toolkit
  *    http://geotools.org
  * 
- *    (C) 2004-2008, Open Source Geospatial Foundation (OSGeo)
+ *    (C) 2004-2015, Open Source Geospatial Foundation (OSGeo)
  *
  *    This library is free software; you can redistribute it and/or
  *    modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,6 @@ import javax.swing.Icon;
 
 import org.geotools.coverage.grid.GridEnvelope2D;
 import org.geotools.data.crs.ForceCoordinateSystemFeatureResults;
-import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.feature.FeatureCollection;
 import org.geotools.geometry.Envelope2D;
 import org.geotools.geometry.GeneralEnvelope;
@@ -48,7 +47,6 @@ import org.geotools.renderer.style.LineStyle2D;
 import org.geotools.renderer.style.Style2D;
 import org.geotools.resources.i18n.ErrorKeys;
 import org.geotools.resources.i18n.Errors;
-import org.opengis.geometry.DirectPosition;
 import org.opengis.geometry.MismatchedDimensionException;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -171,7 +169,7 @@ public final class RendererUtilities {
 		// Get the transform
 		//
 		// //
-            final GridToEnvelopeMapper m = (GridToEnvelopeMapper) gridToEnvelopeMappers.get();
+            final GridToEnvelopeMapper m = gridToEnvelopeMappers.get();
 		try {
             m.setGridRange(new GridEnvelope2D(paintArea));
             m.setEnvelope(genvelope);
@@ -750,7 +748,7 @@ public final class RendererUtilities {
         // is a hashtable lookup. The benefit is reusing the last
         // transform (instead of creating a new one) if the grid
         // and envelope are the same one than during last invocation.
-        final GridToEnvelopeMapper m = (GridToEnvelopeMapper) gridToEnvelopeMappers.get();
+        final GridToEnvelopeMapper m = gridToEnvelopeMappers.get();
         m.setGridRange(new GridEnvelope2D(paintArea));
         m.setEnvelope(newEnvelope);
         return (AffineTransform) (m.createTransform().inverse());
@@ -859,12 +857,31 @@ public final class RendererUtilities {
             if ((rCS == null) || !CRS.equalsIgnoreMetadata(rCS, sourceCrs)) {
                 // need to retag the features
                 try {
-                    return new ForceCoordinateSystemFeatureResults( (SimpleFeatureCollection) features, sourceCrs);
+                    return new ForceCoordinateSystemFeatureResults( features, sourceCrs);
                 } catch (Exception ee) {
                     LOGGER.log(Level.WARNING, ee.getLocalizedMessage(), ee);
                 }
             }
         }
         return features;
+    }
+
+    /**
+     * Extends the provided {@link Envelope} in order to add the number of pixels
+     * specified by <code>buffer</code> in every direction.
+     * 
+     * @param envelope to extend.
+     * @param worldToScreen by means  of which doing the extension.
+     * @param buffer to use for the extension.
+     * @return an extended version of the provided {@link Envelope}.
+     */
+    static Envelope expandEnvelope(Envelope envelope, AffineTransform worldToScreen,
+            int buffer) {
+        assert buffer>0;
+        double bufferX =  Math.abs(buffer * 1.0 /  XAffineTransform.getScaleX0(worldToScreen));
+        double bufferY =  Math.abs(buffer * 1.0 /  XAffineTransform.getScaleY0(worldToScreen));
+        return new Envelope(envelope.getMinX() - bufferX, 
+                envelope.getMaxX() + bufferX, envelope.getMinY() - bufferY, 
+                envelope.getMaxY() + bufferY);
     }
 }

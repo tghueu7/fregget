@@ -63,7 +63,6 @@ import org.geotools.map.MapContext;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.crs.DefaultGeographicCRS;
 import org.geotools.renderer.RenderListener;
-import org.geotools.renderer.lite.StreamingRenderer.RenderCoverageReaderRequest;
 import org.geotools.renderer.lite.StreamingRenderer.RenderingRequest;
 import org.geotools.resources.coverage.FeatureUtilities;
 import org.geotools.styling.Style;
@@ -264,10 +263,6 @@ public class StreamingRendererTest {
         errors = 0;
         features = 0;
         sr.paint((Graphics2D) image.getGraphics(), new Rectangle(200, 200),reUtm);
-        
-        // we should get errors since there are two features that cannot be
-        // projected but the renderer itself should not throw exceptions
-        assertTrue(errors > 0);
     }
 
     @Test

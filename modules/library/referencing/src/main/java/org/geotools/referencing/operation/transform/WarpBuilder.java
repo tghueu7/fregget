@@ -121,7 +121,8 @@ public class WarpBuilder {
          */
         int[] rowCols;
         try {
-            rowCols = computeOptimalDepths(mt, minx, maxx, miny, maxy, 0, 0);
+            rowCols = new GridTransformCalculator(mt, tolerance).computeOptimalDepths(minx, maxx,
+                    miny, maxy, 0, 0);
         } catch (Exception e) {
             return new WarpAdapter(null, mt);
         }

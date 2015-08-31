@@ -1,3 +1,19 @@
+/*
+ *    GeoTools - The Open Source Java GIS Toolkit
+ *    http://geotools.org
+ *
+ *    (C) 2015, Open Source Geospatial Foundation (OSGeo)
+ *
+ *    This library is free software; you can redistribute it and/or
+ *    modify it under the terms of the GNU Lesser General Public
+ *    License as published by the Free Software Foundation;
+ *    version 2.1 of the License.
+ *
+ *    This library is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *    Lesser General Public License for more details.
+ */
 package org.geotools.referencing.operation.transform;
 
 import static java.lang.Math.abs;
@@ -6,6 +22,15 @@ import static java.lang.Math.max;
 import org.opengis.referencing.operation.MathTransform2D;
 import org.opengis.referencing.operation.TransformException;
 
+/**
+ * Given a certain area, computes in how many parts it should be cut in the horizontal and vertical
+ * directions in order to have the MathTransform approximate an affine transform to the given
+ * tolerance inside each part. The target space is in pixels, the transform is the transformation
+ * going from the source space to the target pixel space
+ * 
+ * @author Andrea Aime - GeoSolutions
+ *
+ */
 public class GridTransformCalculator {
 
     /**
@@ -29,7 +54,13 @@ public class GridTransformCalculator {
      */
     final double[] ordinates = new double[10];
 
-    public GridTransformCalculator(double maxDistance) {
+    /**
+     * The math transform to be approximated
+     */
+    MathTransform2D mt;
+
+    public GridTransformCalculator(MathTransform2D mt, double maxDistance) {
+        this.mt = mt;
         this.maxDistanceSquared = maxDistance * maxDistance;
     }
 
@@ -37,14 +68,15 @@ public class GridTransformCalculator {
      * Performs recursive slicing of the area to find the optimal number of subdivisions along the x
      * and y axis.
      * 
-     * @param mt
      * @param minx
      * @param maxx
      * @param miny
      * @param maxy
+     * @throws ExcessiveDepthException If the grid subdivision in the x or y direction goes beyond
+     *         the raster target resolution
      */
-    int[] computeOptimalDepths(MathTransform2D mt, double minx, double maxx, double miny,
-            double maxy, int rowDepth, int colDepth) throws TransformException {
+    int[] computeOptimalDepths(double minx, double maxx, double miny, double maxy, int rowDepth,
+            int colDepth) throws TransformException, ExcessiveDepthException {
         if (maxx - minx < 4 || maxy - miny < 4) {
             throw new ExcessiveDepthException("Warp grid getting as dense as the original data",
                     rowDepth, colDepth);
@@ -60,15 +92,15 @@ public class GridTransformCalculator {
         final double midy = (miny + maxy) / 2;
 
         // test tolerance along the y axis
-        boolean withinTolVertical = isWithinTolerance(mt, minx, miny, minx, midy, minx, maxy)
-                && isWithinTolerance(mt, maxx, miny, maxx, midy, maxx, maxy);
+        boolean withinTolVertical = isWithinTolerance(minx, miny, minx, midy, minx, maxy)
+                && isWithinTolerance(maxx, miny, maxx, midy, maxx, maxy);
         // test tolerance along the x axis
-        boolean withinTolHorizontal = isWithinTolerance(mt, minx, miny, midx, miny, maxx, miny)
-                && isWithinTolerance(mt, minx, maxy, midx, maxy, maxx, maxy);
+        boolean withinTolHorizontal = isWithinTolerance(minx, miny, midx, miny, maxx, miny)
+                && isWithinTolerance(minx, maxy, midx, maxy, maxx, maxy);
         // if needed, check tolerance along the diagonal as well
         if (withinTolVertical && withinTolHorizontal) {
-            if (!isWithinTolerance(mt, minx, miny, midx, midy, maxx, maxy)
-                    || !isWithinTolerance(mt, minx, maxy, midx, midy, maxx, miny)) {
+            if (!isWithinTolerance(minx, miny, midx, midy, maxx, maxy)
+                    || !isWithinTolerance(minx, maxy, midx, midy, maxx, miny)) {
                 withinTolVertical = false;
                 withinTolHorizontal = false;
             }
@@ -80,23 +112,23 @@ public class GridTransformCalculator {
             // quad split
             rowDepth++;
             colDepth++;
-            int[] d1 = computeOptimalDepths(mt, minx, midx, miny, midy, rowDepth, colDepth);
-            int[] d2 = computeOptimalDepths(mt, minx, midx, midy, maxy, rowDepth, colDepth);
-            int[] d3 = computeOptimalDepths(mt, midx, maxx, miny, midy, rowDepth, colDepth);
-            int[] d4 = computeOptimalDepths(mt, midx, maxx, midy, maxy, rowDepth, colDepth);
+            int[] d1 = computeOptimalDepths(minx, midx, miny, midy, rowDepth, colDepth);
+            int[] d2 = computeOptimalDepths(minx, midx, midy, maxy, rowDepth, colDepth);
+            int[] d3 = computeOptimalDepths(midx, maxx, miny, midy, rowDepth, colDepth);
+            int[] d4 = computeOptimalDepths(midx, maxx, midy, maxy, rowDepth, colDepth);
             return new int[] { max(max(d1[0], d2[0]), max(d3[0], d4[0])),
                     max(max(d1[1], d2[1]), max(d3[1], d4[1])) };
         } else if (!withinTolHorizontal) {
             // slice in two at midx (creating two more colums)
             colDepth++;
-            int[] d1 = computeOptimalDepths(mt, minx, midx, miny, maxy, rowDepth, colDepth);
-            int[] d2 = computeOptimalDepths(mt, midx, maxx, miny, maxy, rowDepth, colDepth);
+            int[] d1 = computeOptimalDepths(minx, midx, miny, maxy, rowDepth, colDepth);
+            int[] d2 = computeOptimalDepths(midx, maxx, miny, maxy, rowDepth, colDepth);
             return new int[] { max(d1[0], d2[0]), max(d1[1], d2[1]) };
         } else if (!withinTolVertical) {
             // slice in two at midy (creating two rows)
             rowDepth++;
-            int[] d1 = computeOptimalDepths(mt, minx, maxx, miny, midy, rowDepth, colDepth);
-            int[] d2 = computeOptimalDepths(mt, minx, maxx, midy, maxy, rowDepth, colDepth);
+            int[] d1 = computeOptimalDepths(minx, maxx, miny, midy, rowDepth, colDepth);
+            int[] d2 = computeOptimalDepths(minx, maxx, midy, maxy, rowDepth, colDepth);
             return new int[] { max(d1[0], d2[0]), max(d1[1], d2[1]) };
         }
 
@@ -115,7 +147,7 @@ public class GridTransformCalculator {
      * @param maxy
      * @return
      */
-    boolean isWithinTolerance(MathTransform2D mt, double x1, double y1, double x2, double y2,
+    boolean isWithinTolerance(double x1, double y1, double x2, double y2,
             double x3, double y3) throws TransformException {
         // transform the points (use two extra points at quarter distance to avoid being
         // fooled by symmetrical projections
@@ -181,7 +213,7 @@ public class GridTransformCalculator {
      * 
      * @author Andrea Aime - GeoSolutions
      */
-    class ExcessiveDepthException extends RuntimeException {
+    public static class ExcessiveDepthException extends RuntimeException {
         private static final long serialVersionUID = -3533898904532522502L;
 
         int rowDepth, colDepth;

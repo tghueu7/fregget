@@ -18,6 +18,8 @@ package org.geotools.renderer.lite;
 
 
 import org.geotools.factory.Hints;
+import org.geotools.geometry.jts.GeometryClipper;
+import org.geotools.styling.Symbolizer;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 
@@ -60,4 +62,11 @@ class SymbolizerAssociation{
       * have been amended by the projection handler
       */
      public MathTransform rxform;
+
+    /**
+     * 
+     */
+    public GeometryClipper clipper;
+
+    public Symbolizer symbolizer;
 }

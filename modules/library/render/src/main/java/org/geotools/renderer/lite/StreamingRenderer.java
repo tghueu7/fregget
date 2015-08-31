@@ -74,7 +74,6 @@ import org.geotools.filter.spatial.ReprojectingFilterVisitor;
 import org.geotools.filter.visitor.SimplifyingFilterVisitor;
 import org.geotools.filter.visitor.SpatialFilterVisitor;
 import org.geotools.geometry.jts.Decimator;
-import org.geotools.geometry.jts.GeometryClipper;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.LiteCoordinateSequence;
 import org.geotools.geometry.jts.LiteCoordinateSequenceFactory;
@@ -744,7 +743,7 @@ public class StreamingRenderer implements GTRenderer {
         int buffer = getRenderingBuffer();
         originalMapExtent = mapExtent;
         if(buffer > 0) {
-            mapExtent = new ReferencedEnvelope(expandEnvelope(mapExtent, worldToScreen, buffer), 
+            mapExtent = new ReferencedEnvelope(RendererUtilities.expandEnvelope(mapExtent, worldToScreen, buffer), 
                     mapExtent.getCoordinateReferenceSystem()); 
         }
 
@@ -889,24 +888,6 @@ public class StreamingRenderer implements GTRenderer {
     }
 
     /**
-     * Extends the provided {@link Envelope} in order to add the number of pixels
-     * specified by <code>buffer</code> in every direction.
-     * 
-     * @param envelope to extend.
-     * @param worldToScreen by means  of which doing the extension.
-     * @param buffer to use for the extension.
-     * @return an extended version of the provided {@link Envelope}.
-     */
-    private Envelope expandEnvelope(Envelope envelope, AffineTransform worldToScreen, int buffer) {
-        assert buffer>0;
-        double bufferX =  Math.abs(buffer * 1.0 /  XAffineTransform.getScaleX0(worldToScreen));
-        double bufferY =  Math.abs(buffer * 1.0 /  XAffineTransform.getScaleY0(worldToScreen));
-        return new Envelope(envelope.getMinX() - bufferX, 
-                envelope.getMaxX() + bufferX, envelope.getMinY() - bufferY, 
-                envelope.getMaxY() + bufferY);
-    }
-
-    /**
      * Queries a given layer's features to be rendered based on the target
      * rendering bounding box.
      * <p>
@@ -972,7 +953,7 @@ public class StreamingRenderer implements GTRenderer {
         if(getRenderingBuffer() == 0) {
             int metaBuffer = findRenderingBuffer(styleList);
             if (metaBuffer > 0) {
-                mapArea = expandEnvelope(mapArea, worldToScreenTransform,
+                mapArea = RendererUtilities.expandEnvelope(mapArea, worldToScreenTransform,
                         metaBuffer);
                 LOGGER.fine("Expanding rendering area by " + metaBuffer 
                         + " pixels to consider stroke width");
@@ -2533,23 +2514,6 @@ public class StreamingRenderer implements GTRenderer {
                 } else {
                     Style2D style = styleFactory.createStyle(drawMe.feature, symbolizer);
                     
-                    // clip to the visible area + the size of the symbolizer (with some extra 
-                    // to make sure we get no artefacts from polygon new borders)
-                    double size = RendererUtilities.getStyle2DSize(style);
-                    // take into account the meta buffer to try and clip all geometries by the same
-                    // amount
-                    double clipBuffer = Math.max(size / 2, drawMe.metaBuffer) + 10;
-                    Envelope env = new Envelope(screenSize.getMinX(), screenSize.getMaxX(), screenSize.getMinY(), screenSize.getMaxY());
-                    env.expandBy(clipBuffer);
-                    final GeometryClipper clipper = new GeometryClipper(env);
-                    Geometry g = clipper.clip(shape.getGeometry(), false);
-                    if(g == null) {
-                        continue;
-                    }
-                    if(g != shape.getGeometry()) {
-                        shape = new LiteShape2(g, null, null, false);
-                    }
-                    
                     PaintShapeRequest paintShapeRequest = 
                         new PaintShapeRequest(graphics, shape, style, scaleDenominator);
                     if (symbolizer.hasOption("labelObstacle")) {
@@ -2916,7 +2880,10 @@ public class StreamingRenderer implements GTRenderer {
         private List geometries = new ArrayList();
         private List shapes = new ArrayList();
         private boolean clone;
-        private IdentityHashMap decimators = new IdentityHashMap();
+
+        private IdentityHashMap<MathTransform, Decimator> decimators = new IdentityHashMap<>();
+
+        private IdentityHashMap<MathTransform, RenderingClipper> clippers = new IdentityHashMap<>();
         private ScreenMap screenMap;
         private String layerId;
 
@@ -2962,30 +2929,9 @@ public class StreamingRenderer implements GTRenderer {
                 }
     
                 SymbolizerAssociation sa = (SymbolizerAssociation) symbolizerAssociationHT
-                .get(symbolizer);
-                MathTransform crsTransform = null;
-                MathTransform atTransform = null;
-                MathTransform fullTransform = null;
+                        .get(symbolizer);
                 if (sa == null) {
-                    sa = new SymbolizerAssociation();
-                    sa.crs = (findGeometryCS(feature, symbolizer));
-                    try {
-                        crsTransform = buildTransform(sa.crs, destinationCrs);
-                        atTransform = ProjectiveTransform.create(worldToScreenTransform);
-                        fullTransform = buildFullTransform(sa.crs, destinationCrs, at);
-                    } catch (Exception e) {
-                        // fall through
-                        LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
-                    }
-                    sa.xform = fullTransform;
-                    sa.crsxform = crsTransform;
-                    sa.axform = atTransform;
-                    if(projectionHandler != null) {
-                        sa.rxform = projectionHandler.getRenderingTransform(sa.crsxform);
-                    } else {
-                        sa.rxform = sa.crsxform;
-                    }
-    
+                    sa = buildSymbolizerAssociation(symbolizer, at);
                     symbolizerAssociationHT.put(symbolizer, sa);
                 }
 
@@ -3031,6 +2977,33 @@ public class StreamingRenderer implements GTRenderer {
                 return null;
             }
         }
+
+        private SymbolizerAssociation buildSymbolizerAssociation(Symbolizer symbolizer,
+                AffineTransform at)
+                throws FactoryException {
+            SymbolizerAssociation sa;
+            sa = new SymbolizerAssociation();
+            sa.symbolizer = symbolizer;
+            sa.crs = (findGeometryCS(feature, symbolizer));
+            MathTransform crsTransform = null, atTransform = null, fullTransform = null;
+            try {
+                crsTransform = buildTransform(sa.crs, destinationCrs);
+                atTransform = ProjectiveTransform.create(worldToScreenTransform);
+                fullTransform = buildFullTransform(sa.crs, destinationCrs, at);
+            } catch (Exception e) {
+                // fall through
+                LOGGER.log(Level.WARNING, e.getLocalizedMessage(), e);
+            }
+            sa.xform = fullTransform;
+            sa.crsxform = crsTransform;
+            sa.axform = atTransform;
+            if(projectionHandler != null) {
+                sa.rxform = projectionHandler.getRenderingTransform(sa.crsxform);
+            } else {
+                sa.rxform = sa.crsxform;
+            }
+            return sa;
+        }
         
         private int getGeometryIndex(Geometry g) {
             for (int i = 0; i < geometries.size(); i++) {
@@ -3064,50 +3037,73 @@ public class StreamingRenderer implements GTRenderer {
                     shape = null;
                 } else {
                     // first generalize and transform the geometry into the rendering CRS
-                    Decimator d = getDecimator(sa.xform);
-                    geom = d.decimateTransformGeneralize(geom, sa.rxform);
-                    geom.geometryChanged();
-                    // then post process it (provide reverse transform if available)
-                    MathTransform reverse = null;
-                    if (sa.crsxform != null) {
-                        if (sa.crsxform instanceof ConcatenatedTransform
-                                && ((ConcatenatedTransform) sa.crsxform).transform1
-                                        .getTargetDimensions() >= 3
-                                && ((ConcatenatedTransform) sa.crsxform).transform2
-                                        .getTargetDimensions() == 2) {
-                            reverse = null; // We are downcasting 3D data to 2D data so no inverse is available
-                        } else {
-                            try {
-                                reverse = sa.crsxform.inverse();
-                            } catch (Exception cannotReverse) {
-                                reverse = null; // reverse transform not available
-                            }
-                        }
-                    }
-                    geom = projectionHandler.postProcess(reverse, geom);
-                    if(geom == null) {
+                    geom = clipOnRenderingArea(sa, geom);
+                    if (geom == null) {
                         shape = null;
                     } else {
-                        // apply the affine transform turning the coordinates into pixels
-                        d = new Decimator(-1, -1);
-                        geom = d.decimateTransformGeneralize(geom, sa.axform);
-    
-                        // wrap into a lite shape
+                        Decimator d = getDecimator(sa.xform);
+                        geom = d.decimateTransformGeneralize(geom, sa.rxform);
                         geom.geometryChanged();
-                        shape = new LiteShape2(geom, null, null, false, false);
+                        // then post process it (provide reverse transform if available)
+                        MathTransform reverse = null;
+                        if (sa.crsxform != null) {
+                            if (sa.crsxform instanceof ConcatenatedTransform
+                                    && ((ConcatenatedTransform) sa.crsxform).transform1
+                                            .getTargetDimensions() >= 3
+                                    && ((ConcatenatedTransform) sa.crsxform).transform2
+                                            .getTargetDimensions() == 2) {
+                                reverse = null; // We are downcasting 3D data to 2D data so no
+                                                // inverse is available
+                            } else {
+                                try {
+                                    reverse = sa.crsxform.inverse();
+                                } catch (Exception cannotReverse) {
+                                    reverse = null; // reverse transform not available
+                                }
+                            }
+                        }
+                        geom = projectionHandler.postProcess(reverse, geom);
+                        if (geom == null) {
+                            shape = null;
+                        } else {
+                            // apply the affine transform turning the coordinates into pixels
+                            d = new Decimator(-1, -1);
+                            geom = d.decimateTransformGeneralize(geom, sa.axform);
+
+                            // wrap into a lite shape
+                            geom.geometryChanged();
+                            shape = new LiteShape2(geom, null, null, false, false);
+                        }
                     }
                 } 
             } else {
-                MathTransform xform = null;
-                if (sa != null)
-                    xform = sa.xform;
-                shape = new LiteShape2(geom, xform, getDecimator(xform), false, false);
+                if (sa != null) {
+                    geom = clipOnRenderingArea(sa, geom);
+                    if (geom != null) {
+                        MathTransform xform = sa.xform;
+                        geom = getDecimator(xform).decimateTransformGeneralize(geom, xform);
+                        geom.geometryChanged();
+                    }
+                }
+                if (geom != null) {
+                    shape = new LiteShape2(geom, null, null, false, false);
+                } else {
+                    shape = null;
+                }
             }
 
             // cache the result
             geometries.add(originalGeom);
             shapes.add(shape);
             return shape;
+        }
+
+        private Geometry clipOnRenderingArea(SymbolizerAssociation sa, Geometry geom) {
+            RenderingClipper clipper = getClipper(sa);
+            if (clipper != null) {
+                geom = clipper.clip(geom, styleFactory.createStyle(feature, sa.symbolizer));
+            }
+            return geom;
         }
 
 
@@ -3122,7 +3118,7 @@ public class StreamingRenderer implements GTRenderer {
             if (generalizationDistance == 0 || !inMemoryGeneralization)
                 return NULL_DECIMATOR;
 
-            Decimator decimator = (Decimator) decimators.get(mathTransform);
+            Decimator decimator = decimators.get(mathTransform);
             if (decimator == null) {
                 try {
                     if (mathTransform != null && !mathTransform.isIdentity())
@@ -3136,6 +3132,29 @@ public class StreamingRenderer implements GTRenderer {
                 decimators.put(mathTransform, decimator);
             }
             return decimator;
+        }
+
+        /**
+         * @throws org.opengis.referencing.operation.NoninvertibleTransformException
+         */
+        private RenderingClipper getClipper(SymbolizerAssociation sa) {
+            MathTransform mathTransform = sa.xform;
+            if (mathTransform == null) {
+                return null;
+            }
+            RenderingClipper clipper = clippers.get(mathTransform);
+            if (clipper == null) {
+                try {
+                    clipper = new RenderingClipper(screenSize,
+                            new AffineTransform2D(worldToScreenTransform).inverse(),
+                            mapExtent.getCoordinateReferenceSystem(), sa.crs, metaBuffer);
+                } catch (Exception e) {
+                    // fine, move on
+                }
+
+                clippers.put(mathTransform, clipper);
+            }
+            return clipper;
         }
     }
     
