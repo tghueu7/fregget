@@ -10,6 +10,7 @@
 package org.opengis.coverage.grid;
 
 import java.io.IOException;
+import java.io.Closeable;
 import java.io.FileNotFoundException;
 import org.opengis.parameter.GeneralParameterValue;
 import org.opengis.parameter.ParameterNotFoundException;
@@ -28,7 +29,7 @@ import org.opengis.parameter.InvalidParameterValueException;
  *
  * @source $URL$
  */
-public interface GridCoverageReader {
+public interface GridCoverageReader extends Closeable {
     /**
      * Returns the format handled by this {@code GridCoverageReader}.
      */
@@ -214,4 +215,11 @@ public interface GridCoverageReader {
      *         a file).
      */
     void dispose() throws IOException;
+
+    /**
+     * The default close implementation calls onto {@link GridCoverageReader#dispose()}
+     */
+    default void close() throws IOException {
+        dispose();
+    }
 }

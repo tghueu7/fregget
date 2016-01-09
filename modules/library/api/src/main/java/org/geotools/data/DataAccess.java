@@ -16,6 +16,7 @@
  */
 package org.geotools.data;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;
 
@@ -68,7 +69,8 @@ import org.opengis.feature.type.Name;
  * <li>Application is responsible for holding a single instance to the service or file, DataAccess
  * implementations will hold onto database connections, internal caches and so on - and as such
  * should not be duplicated.
- * <li>DataAccess.dispose() is called when the application is shut down
+ * <li>DataAccess.dispose() is called when the application is shut down, alternatively DataAccess is {@link AutoCloseable}
+ * so it's also possible to use a try-with-resources approach.
  * </ul>
  * 
  * Creation:
@@ -76,7 +78,7 @@ import org.opengis.feature.type.Name;
  * <li>Created using a DataAccessFactory.createNewDataStore using a set of creation parameters
  * <li>DataAccess.createSchema( T ) is called to set up the contents
  * <li>DataAccess.getFetaureSource( Name ) is called, and FeatureStore.addFeatures( collection ) used to populate the contents
- * <li>DataAccess.dispose() is called when the application is shut down
+ * <li>DataAccess.dispose()/close() is called when the application is shut down
  * </ul>
  * <p>
  * Applications are responsible for holding a single instance to the service or file, The
@@ -91,7 +93,7 @@ import org.opengis.feature.type.Name;
  *
  * @source $URL$
  */
-public interface DataAccess<T extends FeatureType, F extends Feature> {
+public interface DataAccess<T extends FeatureType, F extends Feature> extends AutoCloseable {
 
     /**
      * Information about this service.
@@ -198,6 +200,15 @@ public interface DataAccess<T extends FeatureType, F extends Feature> {
      * from/to the storage, or be prepared for the consequences.
      */
     void dispose();
+    
+    /**
+     * The default close implementation simply relays to {@link DataAccess#dispose()}, subclasses
+     * can override
+     */
+    @Override
+    default void close() throws IOException {
+        dispose();
+    }
 
     //FeatureSource<T,F> getView(Query query) throws IOException, SchemaException;
 
