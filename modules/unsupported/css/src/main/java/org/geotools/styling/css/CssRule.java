@@ -45,7 +45,7 @@ import org.geotools.util.Converters;
 public class CssRule {
 
     public static final Integer NO_Z_INDEX = null;
-
+    
     Selector selector;
 
     Map<PseudoClass, List<Property>> properties;
@@ -53,6 +53,8 @@ public class CssRule {
     String comment;
 
     List<CssRule> ancestry;
+    
+    List<CssRule> nestedRules;
 
     /**
      * Builds a CSS rule
@@ -426,6 +428,14 @@ public class CssRule {
 
     public void setAncestry(List<CssRule> ancestry) {
         this.ancestry = ancestry;
+    }
+    
+    /**
+     * Returns the rules nested in this one
+     * @return
+     */
+    public List<CssRule> getNestedRules() {
+        return this.nestedRules;
     }
 
     /**
