@@ -133,6 +133,25 @@ public class GML3CurveParsingTest extends GML3TestSupport {
         assertEquals(new Coordinate(15, 150), arc.getCenter());
     }
 
+    public void testCircleByCenterPolygon() throws Exception {
+        Parser p = new Parser(gml);
+        Object g = p
+                .parse(GML3CurveParsingTest.class.getResourceAsStream("v3_2/circleByCenterPolygon.xml"));
+        assertThat(g, instanceOf(CurvePolygon.class));
+
+        CurvePolygon cp = (CurvePolygon) g;
+        assertEquals(TOLERANCE, cp.getTolerance());
+        assertEquals(0, cp.getNumInteriorRing());
+
+        // exterior ring checks
+        assertTrue(cp.getExteriorRing() instanceof CircularRing);
+        CircularRing shell = (CircularRing) cp.getExteriorRing();
+        assertTrue(CurvedGeometries.isCircle(shell));
+        CircularArc arc = shell.getArcN(0);
+        assertEquals(5, arc.getRadius(), 0d);
+        assertEquals(new Coordinate(10, 20), arc.getCenter());
+    }
+
     public void testCompoundPolygon() throws Exception {
         Parser p = new Parser(gml);
         Object g = p.parse(GML3CurveParsingTest.class

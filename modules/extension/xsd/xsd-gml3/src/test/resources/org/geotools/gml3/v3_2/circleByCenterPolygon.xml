@@ -1,0 +1,16 @@
+<Polygon srsDimension="2" srsName="urn:ogc:def:crs:EPSG::2179">
+  <exterior>
+    <Ring>
+      <curveMember>
+        <Curve>
+          <segments>
+            <CircleByCenterPoint numArc="1">
+              <pos>10 20</pos>
+              <radius uom="m">5</radius>
+            </CircleByCenterPoint>
+          </segments>
+        </Curve>
+      </curveMember>
+    </Ring>
+  </exterior>
+</Polygon>
