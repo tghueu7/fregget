@@ -59,6 +59,7 @@ import org.opengis.filter.Id;
 import org.opengis.filter.IncludeFilter;
 import org.opengis.filter.PropertyIsBetween;
 import org.opengis.filter.PropertyIsLike;
+import org.opengis.filter.PropertyIsNil;
 import org.opengis.filter.PropertyIsNull;
 import org.opengis.filter.expression.Add;
 import org.opengis.filter.expression.Divide;
@@ -145,6 +146,7 @@ public abstract class SQLDialect {
             
             //simple comparisons
             addType(PropertyIsNull.class);
+            addType(PropertyIsNil.class);
             addType(PropertyIsBetween.class);
             addType(Id.class);
             addType(IncludeFilter.class);

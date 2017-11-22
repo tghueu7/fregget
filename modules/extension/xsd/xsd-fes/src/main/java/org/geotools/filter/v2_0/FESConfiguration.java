@@ -72,6 +72,7 @@ import org.geotools.filter.v2_0.bindings.PropertyIsGreaterThanOrEqualToBinding;
 import org.geotools.filter.v2_0.bindings.PropertyIsLessThanBinding;
 import org.geotools.filter.v2_0.bindings.PropertyIsLessThanOrEqualToBinding;
 import org.geotools.filter.v2_0.bindings.PropertyIsLikeTypeBinding;
+import org.geotools.filter.v2_0.bindings.PropertyIsNilTypeBinding;
 import org.geotools.filter.v2_0.bindings.PropertyIsNotEqualToBinding;
 import org.geotools.filter.v2_0.bindings.PropertyIsNullTypeBinding;
 import org.geotools.filter.v2_0.bindings.ResourceIdTypeBinding;
@@ -225,6 +226,7 @@ public class FESConfiguration extends Configuration {
         container.registerComponentImplementation(FES.PropertyIsBetweenType,PropertyIsBetweenTypeBinding.class);
         container.registerComponentImplementation(FES.PropertyIsLikeType,PropertyIsLikeTypeBinding.class);
         container.registerComponentImplementation(FES.PropertyIsNullType,PropertyIsNullTypeBinding.class);
+        container.registerComponentImplementation(FES.PropertyIsNilType,PropertyIsNilTypeBinding.class);
         
         //logical
         container.registerComponentImplementation(FES.And, AndBinding.class);

@@ -402,6 +402,7 @@ public class FilterToSQL implements FilterVisitor, ExpressionVisitor {
         capabilities.addAll(FilterCapabilities.LOGICAL_OPENGIS);
         capabilities.addAll(FilterCapabilities.SIMPLE_COMPARISONS_OPENGIS);
         capabilities.addType(PropertyIsNull.class);
+        capabilities.addType(PropertyIsNil.class);
         capabilities.addType(PropertyIsBetween.class);
         capabilities.addType(Id.class);
         capabilities.addType(IncludeFilter.class);
@@ -899,7 +900,9 @@ public class FilterToSQL implements FilterVisitor, ExpressionVisitor {
     }
 
     public Object visit(PropertyIsNil filter, Object extraData) {
-        throw new UnsupportedOperationException("isNil not supported");
+        // follow the in memory implementation of isNilImpl and act as if it was isNull
+        PropertyIsNull isNull = filterFactory.isNull(filter.getExpression());
+        return visit(isNull, extraData);
     }
 
     /**
